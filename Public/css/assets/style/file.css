@@ -1,0 +1,759 @@
+.ui-jqgrid .ui-jqgrid-hbox {
+    float: left;
+    padding-right: 0px;
+    border: 0px solid red;
+    width: 100%;
+    padding: 0px;
+}
+
+.ui-jqgrid-hbox table {
+    width: 100%;
+    margin: 0px;
+}
+
+.tab-content {
+    border: 1px solid #c5d0dc;
+    padding: 6px 6px;
+    position: relative;
+    z-index: 11;
+}
+
+/*--10/28--*/
+.black_overlay {
+    display: none;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1002;
+    -moz-opacity: 0.6;
+    opacity: .60;
+    filter: alpha(opacity=60);
+}
+
+.popLayer {
+    display: none;
+    position: fixed;
+    z-index: 1003;
+    top: 50px;
+    left: 50%;
+    width: 50%;
+    margin-left: -25%;
+    background: #F2F2F2;
+    padding-bottom: 0px;
+    border: 1px solid #cccccc;
+    min-width: 660px;
+}
+
+.popLayerAll {
+    display: none;
+    position: fixed;
+    z-index: 1003;
+    top: 30px;
+    height: 500px;
+    left: 10%;
+    width: 80%;
+    background: #fff;
+    padding-bottom: 10px;
+    border: 1px solid #cccccc;
+    min-width: 1100px;
+}
+
+.popLayerTip {
+    display: none;
+    position: fixed;
+    background: #ffffff;
+    z-index: 99999999999;
+    border: 1px solid #dddddd;
+    top: 180px;
+    left: 50%;
+    width: 20%;
+    margin-left: -10%;
+}
+
+i.icon-net, .nav-list > li.active > a > i.icon-net {
+    display: inline-block;
+    width: 20px;
+    border: 0px solid red;
+    height: 20px;
+    background: url(../images/iconMenu01.png) 0px -5px no-repeat;
+}
+
+i.icon-user0, .nav-list > li.active > a > i.icon-user0 {
+    display: inline-block;
+    width: 20px;
+    border: 0px solid red;
+    height: 20px;
+    background: url(../images/iconMenu05.png) 0px -3px no-repeat;
+}
+
+i.icon-vir, .nav-list > li.active > a > i.icon-vir {
+    display: inline-block;
+    width: 20px;
+    border: 0px solid red;
+    height: 20px;
+    background: url(../images/iconMenu09.png) 0px -3px no-repeat;
+}
+
+i.icon-task, .nav-list > li.active > a > i.icon-task {
+    display: inline-block;
+    width: 20px;
+    border: 0px solid red;
+    height: 20px;
+    background: url(../images/iconMenu02.png) 0px -5px no-repeat;
+}
+
+i.icon-alarm, .nav-list > li.active > a > i.icon-alarm {
+    display: inline-block;
+    width: 20px;
+    border: 0px solid red;
+    height: 20px;
+    background: url(../images/iconMenu04.png) 0px -3px no-repeat;
+}
+
+i.icon-policy, .nav-list > li.active > a > i.icon-policy {
+    display: inline-block;
+    width: 20px;
+    border: 0px solid red;
+    height: 20px;
+    background: url(../images/iconMenu03.png) 0px -5px no-repeat;
+}
+
+i.icon-journal, .nav-list > li.active > a > i.icon-journal {
+    display: inline-block;
+    width: 20px;
+    border: 0px solid red;
+    height: 20px;
+    background: url(../images/iconMenu06.png) 0px -5px no-repeat;
+}
+
+.detail {
+    width: 540px;
+    float: left;
+    line-height: 30px;
+    text-indent: 2px;
+}
+
+.detail table {
+    width: 100%;
+}
+
+.detail table th {
+    text-align: right;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    font-weight: normal;
+}
+
+.detail table td {
+    text-align: left;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #999;
+}
+
+.netInfo {
+    width: 220px;
+    background: #fafafa;
+    float: left;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.netInfo .info02 {
+    background: #2fb298;
+    color: #fff;
+    line-height: 30px;
+    padding: 10px;
+    font-size: 14px;
+    float: left
+}
+
+.netInfo .info02 p {
+    display: inline-block;
+    width: 100%;
+}
+
+.netInfo .info02 span {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+}
+
+.netInfo .info02 b {
+    font-size: 16px;
+}
+
+.netDetailArea {
+    margin-top: 5px;
+    border: 1px solid #ddd;
+}
+
+.netDetailArea h1 {
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    line-height: 40px;
+    font-weight: normal;
+    background: #f6fcfd;
+    text-indent: 5px;
+}
+
+.netDetailArea h1 span {
+    color: #999;
+    margin-right: 20px;
+    display: inline-block
+}
+
+.netDetailArea h1 span b {
+    color: #333;
+    font-size: 12px;
+}
+
+.netDetailArea h1 span.time {
+    font-size: 12px;
+    position: absolute;
+    right: 0px;
+}
+
+.netDetailArea h2 {
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+    width: 100%;
+    border-bottom: 0px solid #ddd;
+    line-height: 36px;
+    font-weight: normal;
+    background: #fafafa;
+    text-indent: 5px;
+}
+
+.netDetailArea h2 span {
+    color: #999;
+    margin-right: 20px;
+}
+
+.netDetailArea h2 span b {
+    color: #666;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.netDetailArea h2 span a {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.netDetailArea h2 span a div.versionDet, .netDetailArea h2 span a div.versionDet2, .netDetailArea h2 span a div.versionDet3, .netDetailArea h2 span a div.versionDet4, .netDetailArea h2 span a div.versionDet5 {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    top: 35px;
+    min-width: 800px;
+    line-height: 30px;
+    background: #fff;
+    z-index: 9999999;
+    border: 1px solid #ddd;
+}
+
+.netDetailArea h2 div.versionDet, .netDetailArea h2 div.versionDet2, .netDetailArea h2 div.versionDet3, .netDetailArea h2 div.versionDet4, .netDetailArea h2 div.versionDet5 {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    top: 32px;
+    width: 100%;
+    min-width: 800px;
+    line-height: 30px;
+    background: #fff;
+    z-index: 9999999;
+    border: 1px solid #ddd;
+    cursor: default;
+    min-height: 30px;
+}
+
+p.state {
+    display: inline-block;
+    width: 100%;
+    line-height: 32px;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+p.state a.online {
+    display: inline-block;
+    background: #0dda17;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 28px;
+    margin-right: 10px;
+    color: #fff;
+    font-size: 14px;
+    -moz-border-radius: 3px; /* Gecko browsers */
+    -webkit-border-radius: 3px; /* Webkit browsers */
+    border-radius: 3px; /* W3C syntax*/
+}
+
+p.state a.offline {
+    display: inline-block;
+    background: #d4d4d4;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 28px;
+    margin-right: 10px;
+    color: #333;
+    font-size: 14px;
+    -moz-border-radius: 3px; /* Gecko browsers */
+    -webkit-border-radius: 3px; /* Webkit browsers */
+    border-radius: 3px; /* W3C syntax*/
+}
+
+p.state span {
+    margin-right: 15px;
+}
+
+p.state span b {
+    padding-right: 5px;
+}
+
+.netInfo02 {
+    float: left;
+    margin-top: 5px;
+}
+
+.netInfo02 ul li {
+    float: left;
+    list-style: none;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    background: none;
+}
+
+.netInfo03 {
+    float: left;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.netInfo03 ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.netInfo03 ul li {
+    float: left;
+    position: relative;
+    width: 25%;
+    border: 1px dashed #cccccc;
+    list-style: none;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    padding: 0px 10px 10px 10px;
+}
+
+.netInfo03 ul li.bor0 {
+    border-bottom: 0px;
+    border-right: 0px;
+}
+
+.netInfo03 ul li.borR0 {
+    border-right: 0px;
+}
+
+.netInfo03 ul li.borB0 {
+    border-bottom: 0px;
+}
+
+/*--11/2--*/
+.netInfo03 ul li p {
+    margin: 0px;
+    padding: 0px;
+    color: #999;
+}
+
+.netInfo03 ul li p.fontSize {
+    font-size: 30px;
+    font-weight: bold;
+    color: #666;
+}
+
+.netInfo03 ul li i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/*-1103li--*/
+b.alarmPurple {
+    display: inline-block;
+    height: 16px;
+    margin-right: 5px;
+    background: #800080;
+    font-size: 12px;
+}
+
+b.alarmGreen {
+    display: inline-block;
+    height: 16px;
+    margin-right: 5px;
+    background: #00ff00;
+    font-size: 12px;
+}
+
+b.alarmRed {
+    display: inline-block;
+    height: 16px;
+    margin-right: 5px;
+    background: #c00;
+    font-size: 12px;
+}
+
+b.alarmOrg {
+    display: inline-block;
+    height: 16px;
+    margin-right: 5px;
+    background: #ea8400;
+    font-size: 12px;
+}
+
+b.alarmYellow {
+    display: inline-block;
+    height: 16px;
+    margin-right: 5px;
+    background: #d1de00;
+    font-size: 12px;
+}
+
+b.alarmGray {
+    display: inline-block;
+    height: 16px;
+    margin-right: 5px;
+    background: #ddd;
+    font-size: 12px;
+}
+
+b.w30 {
+    width: 50px;
+    text-indent: 2px;
+    color: #fff;
+}
+
+i.alarmRed {
+    display: inline-block;
+    height: 20px;
+    margin-right: 5px;
+    background: #e54100;
+    color: #fff;
+    font-style: normal;
+    padding-left: 5px;
+    padding-right: 15px;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+i.alarmOrg {
+    display: inline-block;
+    height: 20px;
+    margin-right: 5px;
+    background: #ffae00;
+    color: #fff;
+    font-style: normal;
+    padding-left: 5px;
+    padding-right: 15px;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+i.alarmYellow {
+    display: inline-block;
+    height: 20px;
+    margin-right: 5px;
+    background: #d1de00;
+    color: #fff;
+    font-style: normal;
+    padding-left: 5px;
+    padding-right: 15px;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.iconBell {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    float: left;
+    background: url(../images/bell.png) left center no-repeat;
+    background-size: 16px 16px;
+    margin-top: 2px;
+    margin-right: 3px;
+}
+
+.iconBellGray {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    float: left;
+    background: url(../images/bellGray.png) left center no-repeat;
+    background-size: 16px 16px;
+    margin-top: 2px;
+    margin-right: 3px;
+}
+
+span.spanW100 {
+    display: inline-block;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+span.spanW60 {
+    display: inline-block;
+    width: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+span.spanW200 {
+    display: inline-block;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+b.startPer {
+    background: #a3a3a3;
+    display: inline-block;
+    color: #fff;
+    width: 100px;
+}
+
+b.startPer i {
+    display: inline-block;
+    background: red;
+    font-style: normal;
+    text-indent: 2px;
+}
+
+.col-xs-win {
+    padding: 0px;
+}
+
+.form-actions {
+    background-color: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
+    display: block;
+    margin-bottom: 0px;
+    margin-top: 20px;
+    text-align: center;
+    text-indent: 0px;
+    padding: 10px;
+}
+
+/*--11/5--*/
+.tipText {
+    text-align: center;
+    margin: 10px;
+    padding: 0px;
+    font-size: 16px;
+    color: #006600
+}
+
+a.historyM {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #428bca;
+    line-height: 28px;
+    color: #FFF;
+    padding-right: 5px;
+    -moz-border-radius: 3px; /* Gecko browsers */
+    -webkit-border-radius: 3px; /* Webkit browsers */
+    border-radius: 3px; /* W3C syntax*/
+}
+
+a.historyM:hover {
+    text-decoration: none;
+    background: #1b6aaa;
+}
+
+#zTreeOption {
+    position: fixed;
+    left: 0px;
+    top: 60px;
+    z-index: 99999;
+    width: 185px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0px;
+}
+
+#zTreeOption h1 {
+    display: inline-block;
+    width: 100%;
+    line-height: 40px;
+    background: #f5f5f5;
+    font-size: 14px;
+    font-weight: bold;
+    text-indent: 10px;
+    position: relative;
+}
+
+#zTreeOption h1 a {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    top: 2px;
+}
+
+.zTreeOption {
+    position: fixed;
+    left: 0px;
+    top: 60px;
+    z-index: 99999;
+    width: 185px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0px;
+}
+
+.zTreeOption h1 {
+    display: inline-block;
+    width: 100%;
+    line-height: 40px;
+    background: #f5f5f5;
+    font-size: 14px;
+    font-weight: bold;
+    text-indent: 10px;
+    position: relative;
+}
+
+.zTreeOption h1 a {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    top: 2px;
+}
+
+.chartTableList {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.chartTableList th {
+    line-height: 28px;
+    background: #f5f5f5;
+    text-indent: 3px;
+    border-bottom: 0px solid #ddd;
+}
+
+.chartTableList td {
+    font-size: 12px;
+    text-indent: 3px;
+    border-bottom: 1px solid #e6e6e6;
+    line-height: 22px;
+}
+
+.chartTableList td {
+    cursor: pointer;
+}
+
+.icon-remove {
+    cursor: pointer
+}
+
+.winScroll {
+    max-height: 420px;
+    border: 0px solid red;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+b.startPer {
+    background: none;
+    color: red
+}
+
+span.w100 {
+    display: inline-block;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mapModel {
+}
+
+/*--11/5--*/
+
+.taskPopLayer {
+    width: 60%;
+    top: 40px;
+    margin-left: -30%;
+    min-width: 821px;
+}
+
+.leftContent_form {
+    border-right: 1px solid #ddd;
+    float: left;
+    margin-left: 10px;
+    width: 410px;
+    height: 400px;
+}
+
+.rightContent_form {
+    float: left;
+    width: 360px;
+    height: 400px;
+}
+
+.zTreeOptionStyle {
+    position: relative;
+    overflow: auto;
+    top: 0px;
+    left: 20px;
+    width: 350px;
+    height: 370px;
+    overflow: auto;
+}
+
+.zTreeOptionStyle > div {
+    width: 160px;
+    overflow: auto;
+}
+
+/*--2016/1/30--*/
+.loadImg {
+    display: none;
+    width: 160px;
+    height: 30px;
+    position: absolute;
+    left: 48%;
+    line-height: 30px;
+    text-align: left;
+    border: 0px solid red;
+    margin: 0 auto;
+    margin-top: 300px;
+    color: #000;
+    font-size: 14px;
+    background: url(/Public/css/assets/images/loading.gif) left center no-repeat;
+    text-indent: 40px;
+    z-index: 1;
+}
+
+.form-horizontal {
+    min-width: 650px;
+    color:black;
+}
+
