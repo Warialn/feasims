@@ -1,0 +1,242 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>统计报表管理</li>
+            <li class="active" style="color: white">中标数据汇总统计</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0;width: 1228px">
+
+                    <div class="record" style="width: 1228px;">
+                        <!-- <div class="recordOne">
+                            <p class="tit">中标机房统计表</p>
+                            <p></p>
+                            <p>
+                                总机房数：<span>{$all_lab}</span>
+                                中标机房数：<span>{$hit_lab_count}</span>
+                            </p>
+                        </div> -->
+                        <div class="recordOne">
+                            <p class="tit">中标IP统计表</p>
+                            <p>
+                                总IP数：<span>{$all_ip_count}</span>
+
+                            </p>
+                            <p>
+                                网内：<span>{$netin_count}</span>
+                                WAP：<span>{$wap_count}</span>
+                                国内：<span>{$china_count}</span>
+                                其他：<span>{$other_count}</span>
+                            </p>
+                        </div>
+                        <div class="recordOne">
+                            <p class="tit">中标记录统计表</p>
+                            <p>
+                                <!-- 总数：<span>{$text_count + $pic_count}</span> -->
+                            </p>
+                            <p>
+                                中标域名：<span>{$domain_count}</span>
+                                中标URL：<span>{$url_count}</span>
+                            </p>
+                        </div>
+                        <div class="recordOne">
+                            <p class="tit">中标样本类型统计表</p>
+                            <p>
+
+                            </p>
+                            <p>
+                                总数：<span>{$text_count + $pic_count}</span>
+                                文本：<span>{$text_count}</span>
+                                图片：<span>{$pic_count}</span>
+                            </p>
+                        </div>
+                    </div>
+
+                <div class="card"  style="background-color: #004882;margin-top: 10px">
+                    <div class="card-header ">
+                        <div class="formArea">
+                            <form class="form-inline" action='' method="get">
+                                <ul>
+                                    <!-- <li>
+                                        <label>机房名称：</label>
+                                        <select name="lab_id" id="lab_id">
+                                            <option value="">全部</option>
+                                            <volist name="lab" id="lab_info">
+                                                <option value="{$lab_info['lab_id']}">{$lab_info['lab_name']}</option>
+                                            </volist>
+
+                                        </select>
+                                    </li> -->
+                                    <li>
+                                        <label>时间：</label>
+                                        <input class="date-range-picker" type="text" name="time" id="time" data-date-format="YYYY-MM-DD"/>
+                                    </li>
+                                    <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 20px 0 0 0">
+                        <div class="recordChart">
+                            <div id="container_a"></div>
+                            <div id="container_c"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#time').val('<?=$time?>');
+    $('#lab_id').val('<?=$lab_id?>')
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+    $(function () {
+        $('#container_a').highcharts({
+            chart: {
+                type: 'column',
+                backgroundColor: 'rgba(0,0,0,0.3)',
+
+            },
+            colors:[
+                '#E4D354',
+                '#F45B5B'
+            ],
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: '中标类型统计表',
+                style: {
+                    color: '#fff',
+                    fontWeight: 'bold'
+                }
+            },
+            //设置滚动条
+            scrollbar: {
+                enabled: true
+            },
+
+            xAxis: {
+                categories: 
+                    ['文字','图片']
+                ,
+                crosshair: true,
+                labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color:'#fff'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: null
+                },
+                gridLineColor: '#084669',
+                gridLineDashStyle: 'longdash',
+                lineColor: '#fff',
+                lineWidth: 1,
+                color:'#fff',
+                labels: {
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color:'#fff'
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:15px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="color:{series.color};padding:0 "><b>{point.y} 个</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                },
+                series: {
+                    borderColor: 'rgba(0,0,0)',
+                    borderRadius: 5
+                }
+            },
+            series: [{
+                name: '中标URL个数',
+                data: {$type_res}
+            }]
+        });
+    });
+    $(function () {
+        $('#container_c').highcharts({
+            chart: {
+                backgroundColor: 'rgba(0,0,0,0.3)',
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '审核结果统计表',
+                     style: {
+                         color: '#fff',
+                             fontWeight: 'bold'
+                     }
+            },
+            tooltip: {
+                pointFormat: '<b>{point.y} 个</b>'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color:'white'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '中标文件统计表',
+                data: [
+                    {$result_count}
+                ]
+            }]
+        });
+    });
+
+</script>
+

@@ -1,0 +1,307 @@
+<div class="app-container">
+    <div class="row content-container">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-expand-toggle">
+                        <i class="fa fa-bars icon"></i>
+                    </button>
+                    <ol class="breadcrumb navbar-breadcrumb">
+                        <li>策略管理</li>
+                        <li class="active">关键字</li>
+                    </ol>
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-th icon"></i>
+                    </button>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-times icon"></i>
+                    </button>
+                    <li class="dropdown">
+                        <a href="{:U('Index/index')}">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-comments-o"></i></a>
+                        <ul class="dropdown-menu animated fadeInDown">
+                            <li class="title">
+                                Notification <span class="badge pull-right">0</span>
+                            </li>
+                            <li class="message">
+                                No new notification
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown danger">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
+                        <ul class="dropdown-menu danger  animated fadeInDown">
+                            <li class="title">
+                                Notification <span class="badge pull-right">4</span>
+                            </li>
+                            <li>
+                                <ul class="list-group notifications">
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i>
+                                            new registration
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge success">1</span> <i class="fa fa-check icon"></i> new
+                                            orders
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge danger">2</span> <i class="fa fa-comments icon"></i>
+                                            customers messages
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item message">
+                                            view all
+                                        </li>
+                                    </a>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Emily
+                            Hart <span class="caret"></span></a>
+                        <ul class="dropdown-menu animated fadeInDown">
+                            <li class="profile-img">
+                                <!--<img src="../../img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">-->
+                            </li>
+                            <li>
+                                <div class="profile-info">
+                                    <h4 class="username">Emily Hart</h4>
+                                    <p>emily_hart@email.com</p>
+                                    <div class="btn-group margin-bottom-2x" role="group">
+                                        <button type="button" class="btn btn-default"><i class="fa fa-user"></i> Profile
+                                        </button>
+                                        <button type="button" class="btn btn-default"><i class="fa fa-sign-out"></i>
+                                            Logout
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="title">
+                                        <p>查询条件</p>
+                                    </div>
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="exampleSelect-b">关键字类别：</label>
+                                            <select id="exampleSelect-b" style="width: 168px">
+                                                <option>请选择</option>
+                                                <option>涉黄</option>
+                                                <option>违法</option>
+                                                <option>其他</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label for="exampleInput-b">关键字策略：</label>
+                                            <input type="text" style="width: 168px" class="form-control input-sm" id="exampleInput-b">
+                                        </div>
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label for="exampleInput-a">权重：</label>
+                                            <input type="number" style="width: 168px" class="form-control input-sm" id="exampleInput-a">
+                                        </div>
+                                        <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="pull-left" style="margin-bottom: 10px">
+                                    <span><i class="fa fa-sign-in" style="margin-right: 5px"></i>导入</span>
+                                    <span style="cursor:pointer;"><i class="fa fa-external-link" style="margin-left: 5px;margin-right: 5px"></i>导出</span>
+                                </div>
+                                <div class="pull-right" style="margin-bottom: 10px">
+                                    <!--<button type="button" class="btn btn-info btn-sm" style="margin-top: 0" data-toggle="modal" data-target="#myModa3">添加</button>-->
+                                    <!--<button type="button" class="btn btn-info btn-sm" style="margin-top: 0" data-toggle="modal" data-target="#myModal-qlxf">提交修改</button>-->
+                                    <span data-toggle="modal" data-target="#myModa3" style="cursor: pointer">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="color: green;margin-right: 5px"></span>添加
+                                    </span>
+                                    <span data-toggle="modal" data-target="#myModal-qlxf" style="margin-left: 10px">
+                                        <span class="glyphicon glyphicon-download" aria-hidden="true" style="margin-right: 5px;color: #22A7F0"></span>全量下发
+                                    </span>
+                                </div>
+                                <!--  表格  -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>关键字类别</th>
+                                        <th>关键字策略</th>
+                                        <th>权重</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>涉黄</td>
+                                        <td>处女膜</td>
+                                        <td>5</td>
+                                        <td style="text-align: center">
+                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="cursor: pointer" data-toggle="modal" data-target="#myModal"></span>
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true" style="cursor: pointer;margin-left: 5px" data-toggle="modal" data-target="#myModa2"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td>其他</td>
+                                        <td>中共土匪&激战江泽民|郭文贵爆料</td>
+                                        <td>50</td>
+                                        <td style="text-align: center">
+                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true" style="cursor: pointer" data-toggle="modal" data-target="#myModal"></span>
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true" style="cursor: pointer;margin-left: 5px" data-toggle="modal" data-target="#myModa2"></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!--  修改 模态框  -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-a" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabe-a">修改</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group">
+                                                        <label style="width: 72px;text-align: right">关键字类别：</label>
+                                                        <select style="width: 168px" >
+                                                            <option>请选择</option>
+                                                            <option>涉黄</option>
+                                                            <option>违法</option>
+                                                            <option>其他</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 72px;text-align: right">关键字策略：</label>
+                                                        <input type="text" class="form-control input-sm">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 72px;text-align: right">权重：</label>
+                                                        <input type="number" class="form-control input-sm">
+
+                                                    </div>
+
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  删除 模态框  -->
+                                <div class="modal fade" id="myModa2" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">删除</h4>
+                                            </div>
+                                            <div class="modal-body">确定删除此记录吗？</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  添加 模态框（Modal） -->
+                                <div class="modal fade" id="myModa3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-b" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel-b">添加</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group">
+                                                        <label style="width: 72px;text-align: right">关键字类别：</label>
+                                                        <select style="width: 168px" >
+                                                            <option>请选择</option>
+                                                            <option>涉黄</option>
+                                                            <option>违法</option>
+                                                            <option>其他</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 72px;text-align: right">关键字策略：</label>
+                                                        <input type="text" class="form-control input-sm">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 72px;text-align: right">权重：</label>
+                                                        <input type="number" class="form-control input-sm">
+
+                                                    </div>
+
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info">添加</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  全量下发 模态框（Modal） -->
+                                <div class="modal fade" id="myModal-qlxf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-qlxf" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel-qlxf">全量下发</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>确定全量下发策略吗？</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

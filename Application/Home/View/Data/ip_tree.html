@@ -1,0 +1,370 @@
+<style>
+    .imgbox {
+        position: relative;
+    }
+
+    .probox img {
+        /*width:100px;*/
+        height: 45px;
+        vertical-align: top;
+        /*text-align: center;*/
+    }
+
+    .showbox {
+        /*display: none;*/
+        position: fixed;
+        left: 600px;
+        top: 250px;
+        width: 400px;
+        height: 300px;
+        overflow: hidden;
+    }
+
+    .showbox img {
+        position: fixed;
+        height: 300px;
+        width: 300px;
+        cursor: pointer;
+    }
+
+    .hoverbox {
+        display: none;
+        position: absolute;
+        top: 0;
+        height: 45px;
+        width: 100px;
+        cursor: move;
+        z-index: 10;
+    }
+
+</style>
+
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>中标数据管理</li>
+            <li class="active" style="color: white">按IP树展示</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="table-responsive" style="float: left;margin-left: 30px;width: 196px">
+                            <form class="J_ajaxForm"  method="post">
+                                <div class="table_full">
+                                    <table width="100%" cellspacing="0" id="dnd-example">
+                                        <tbody>
+                                       <a href="#" class="ip_info">查看全部</a> {$categorys}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+
+                            <div class="card-header" style="float: right;width: 960px;float: right">
+                                <div class="formArea" style="width: 960px">
+                                    <form class="form-inline">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 24px">域名：</label>
+                                                <input type="text" name="hitdomain" id="hitdomain">
+                                            </li>
+                                            <li>
+                                                <label>样本URL：</label>
+                                                <input type="text" name="hiturl" id="hiturl">
+                                            </li>                                            
+                                            <li>
+                                                <label>检出日期：</label>
+                                                <input class="date-range-picker" type="text" name="time" id="time"data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <input id='ip' name='ip' type="hidden">
+                                            <button type="submit" class="btn btn-info ip_info_search" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <table class="table no-margin-bottom table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center">不良样本</th>
+                                        <th style="text-align: center">域名</th>
+                                        <th style="text-align: center">URL</th>
+                                        <th style="text-align: center">IP</th>
+                                        <th style="text-align: center">检出日期</th>
+                                        <th style="text-align: center">审核日期</th>
+                                        <!-- <th style="text-align: center">机房名称</th> -->
+                                    </tr>
+                                    </thead>
+                                    <tbody id="info_td">
+                                    </tbody>
+                                </table>
+                                <div class="showbox">
+                                    <img src="" alt="" class="aaaa">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     $(".ip_info").click(function(){
+        var ip = $(this).attr('data');
+        $('#ip').val(ip);
+        $.ajax({
+            url:'__URL__/ip_info',
+            type:'get',
+            data:{'ip':ip},
+            success: function(data){
+                if (data) {
+                    $("#info_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        if(value.hit_type == '1'){
+                            $("<tr><td style='text-align:center;'><form action='__APP__/Home/Text/text_info' method='post'><input type='hidden' name='textword' value="+value.hit_content+"><input type='hidden' name='filepath' value="+value.file_path+"><button type='submit' style='margin-top: 0;margin-bottom: 0; font-weight: bold;color: blue' class='btn btn-xs btn-link'>详情</button></form></td><td style='text-align:center;'>" + value.domain + "</td><td style='text-align:center;' title="+value.url+">" + value.url.substring(0,20) +"</td><td style='text-align:center;'>" + value.ip +"</td><td style='text-align:center;'>" + value.hit_time +"</td><td style='text-align:center;'>" + value.audit_time +"</td></tr>").appendTo($("#info_td"));
+                        }else if(value.hit_type == '2'){
+//                            $("<tr><td style='text-align:center;'><div class='big_img'><img class='dialog' src="+ value.file_path +" alt='' style='height: 40px;'></div></td><td style='text-align:center;'>" + value.domain + "</td><td style='text-align:center;' title="+value.url+">" + value.url.substring(0,20) +"</td><td style='text-align:center;'>" + value.ip +"</td><td style='text-align:center;'>" + value.hit_time +"</td><td style='text-align:center;'>" + value.audit_time +"</td><td style='text-align:center;'>" + value.lab_name +"</td></tr>").appendTo($("#info_td"));
+                            $("<tr>" +
+                                "<td style='position: relative;text-align:center'>" +
+                                "<div class='imgbox'>" +
+                                "<div class='probox'>" +
+                                "<img src=" + value.file_path + " alt='' style='height: 40px;'> " +
+                                "<div class='hoverbox'>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</td>" +
+                                "<td style='text-align:center;'>" + value.domain + "</td>" +
+                                "<td style='text-align:center;' title=" + value.url + ">" + value.url.substring(0, 20) + "</td>" +
+                                "<td style='text-align:center;'>" + value.ip + "</td>" +
+                                "<td style='text-align:center;'>" + value.hit_time + "</td>" +
+                                "<td style='text-align:center;'>" + value.audit_time + "</td>" +
+                                "</tr>").appendTo($("#info_td"))
+                            function Zoom(imgbox, hoverbox, l, t, x, y, h_w, h_h, showbox) {
+                                var moveX = x - l - (h_w / 2);
+                                //鼠标区域距离
+                                var moveY = y - t - (h_h / 2);
+                                //鼠标区域距离
+                                if (moveX < 0) {
+                                    moveX = 0
+                                }
+                                if (moveY < 0) {
+                                    moveY = 0
+                                }
+                                if (moveX > imgbox.width() - h_w) {
+                                    moveX = imgbox.width() - h_w
+                                }
+                                if (moveY > imgbox.height() - h_h) {
+                                    moveY = imgbox.height() - h_h
+                                }
+                                //判断鼠标使其不跑出图片框
+                                var zoomX = showbox.width() / imgbox.width()
+                                //求图片比例
+                                var zoomY = showbox.height() / imgbox.height()
+
+                                showbox.css({
+                                    left: -(moveX * zoomX),
+                                    top: -(moveY * zoomY)
+                                })
+                                hoverbox.css({
+                                    left: moveX,
+                                    top: moveY
+                                })
+                                //确定位置
+
+                            }
+
+                            function Zoomhover(imgbox, hoverbox, showbox) {
+                                var l = imgbox.offset().left;
+                                var t = imgbox.offset().top;
+                                var w = hoverbox.width();
+                                var h = hoverbox.height();
+                                var time;
+                                $(".probox img,.hoverbox").mouseover(function (e) {
+                                    var x = e.pageX;
+                                    var y = e.pageY;
+                                    $(".hoverbox,.showbox").show();
+                                    hoverbox.css("opacity", "0.3");
+                                    time = setTimeout(function () {
+                                        Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+                                    }, 1)
+                                }).mousemove(function (e) {
+                                    var x = e.pageX;
+                                    var y = e.pageY;
+                                    time = setTimeout(function () {
+                                        Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+                                    }, 1)
+                                }).mouseout(function () {
+                                    showbox.parent().hide();
+                                    hoverbox.hide();
+                                })
+                            }
+
+                            $(function () {
+                                Zoomhover($(".probox img"), $(".hoverbox"), $(".showbox img"));
+                            });
+                            $(".table #info_td tr td").mouseenter(function () {
+                                var imgNew = '<img src=' + $(this).find('.imgbox>.probox>img').attr('src') + ' >'
+//                                console.log(imgNew)
+                                $(".showbox").html($(imgNew))
+                            }).mouseleave(function () {
+                                $(".showbox").css('display', 'none')
+                            });
+                        }
+                        
+                    });
+                }
+            }
+        })
+    })
+
+     $(".ip_info_search").click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var data = {};
+        data.ip = $('#ip').val();
+        data.hiturl = $('#hiturl').val();
+        data.time = $('#time').val();
+        data.audit_time = $('#audit_time').val();
+        $.ajax({
+            url:'__URL__/ip_info',
+            type:'get',
+            data:data,
+            success: function(data){
+                if (data) {
+                    $("#info_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        if(value.hit_type == '1'){
+                            $("<tr><td style='text-align:center;'><form action='__APP__/Home/Text/text_info' method='post'><input type='hidden' name='textword' value="+value.hit_content+"><input type='hidden' name='filepath' value="+value.file_path+"><button type='submit' style='margin-top: 0;margin-bottom: 0; font-weight: bold;color: blue' class='btn btn-xs btn-link'>详情</button></form></td><td style='text-align:center;'>" + value.domain + "</td><td style='text-align:center;'>" + value.url +"</td><td style='text-align:center;'>" + value.ip +"</td><td style='text-align:center;'>" + value.hit_time +"</td><td style='text-align:center;'>" + value.audit_time +"</td></tr>").appendTo($("#info_td"));
+                        }else if(value.hit_type == '2'){
+//                            $("<tr><td style='text-align:center;'><img src="+ value.file_path +" alt='' style='height: 40px;'></td><td style='text-align:center;'>" + value.domain + "</td><td style='text-align:center;'>" + value.url +"</td><td style='text-align:center;'>" + value.ip +"</td><td style='text-align:center;'>" + value.hit_time +"</td><td style='text-align:center;'>" + value.audit_time +"</td><td style='text-align:center;'>" + value.lab_name +"</td></tr>").appendTo($("#info_td"));
+                            $("<tr>" +
+                                "<td style='position: relative;text-align:center'>" +
+                                "<div class='imgbox'>" +
+                                "<div class='probox'>" +
+                                "<img src=" + value.file_path + " alt='' style='height: 40px;'> " +
+                                "<div class='hoverbox'>" +
+                                "</div>" +
+                                "</div>" +
+                                "</div>" +
+                                "</td>" +
+                                "<td style='text-align:center;'>" + value.domain + "</td>" +
+                                "<td style='text-align:center;' title=" + value.url + ">" + value.url.substring(0, 20) + "</td>" +
+                                "<td style='text-align:center;'>" + value.ip + "</td>" +
+                                "<td style='text-align:center;'>" + value.hit_time + "</td>" +
+                                "<td style='text-align:center;'>" + value.audit_time + "</td>" +
+                                "</tr>").appendTo($("#info_td"))
+                            function Zoom(imgbox, hoverbox, l, t, x, y, h_w, h_h, showbox) {
+                                var moveX = x - l - (h_w / 2);
+                                //鼠标区域距离
+                                var moveY = y - t - (h_h / 2);
+                                //鼠标区域距离
+                                if (moveX < 0) {
+                                    moveX = 0
+                                }
+                                if (moveY < 0) {
+                                    moveY = 0
+                                }
+                                if (moveX > imgbox.width() - h_w) {
+                                    moveX = imgbox.width() - h_w
+                                }
+                                if (moveY > imgbox.height() - h_h) {
+                                    moveY = imgbox.height() - h_h
+                                }
+                                //判断鼠标使其不跑出图片框
+                                var zoomX = showbox.width() / imgbox.width()
+                                //求图片比例
+                                var zoomY = showbox.height() / imgbox.height()
+
+                                showbox.css({
+                                    left: -(moveX * zoomX),
+                                    top: -(moveY * zoomY)
+                                })
+                                hoverbox.css({
+                                    left: moveX,
+                                    top: moveY
+                                })
+                                //确定位置
+
+                            }
+
+                            function Zoomhover(imgbox, hoverbox, showbox) {
+                                var l = imgbox.offset().left;
+                                var t = imgbox.offset().top;
+                                var w = hoverbox.width();
+                                var h = hoverbox.height();
+                                var time;
+                                $(".probox img,.hoverbox").mouseover(function (e) {
+                                    var x = e.pageX;
+                                    var y = e.pageY;
+                                    $(".hoverbox,.showbox").show();
+                                    hoverbox.css("opacity", "0.3");
+                                    time = setTimeout(function () {
+                                        Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+                                    }, 1)
+                                }).mousemove(function (e) {
+                                    var x = e.pageX;
+                                    var y = e.pageY;
+                                    time = setTimeout(function () {
+                                        Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+                                    }, 1)
+                                }).mouseout(function () {
+                                    showbox.parent().hide();
+                                    hoverbox.hide();
+                                })
+                            }
+
+                            $(function () {
+                                Zoomhover($(".probox img"), $(".hoverbox"), $(".showbox img"));
+                            });
+                            $(".table #info_td tr td").mouseenter(function () {
+                                var imgNew = '<img src=' + $(this).find('.imgbox>.probox>img').attr('src') + ' >'
+//                                console.log(imgNew)
+                                $(".showbox").html($(imgNew))
+                            }).mouseleave(function () {
+                                $(".showbox").css('display', 'none')
+                            });
+                        }
+                        
+                    });
+                }
+            }
+        })
+    })
+    $('#hiturl').val("<?=$hiturl?>");
+    $('#hitdomain').val("<?=$hitdomain?>");
+    $('#time').val("<?=$time?>");
+     
+</script>
+    
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale : {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五','六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker:true,
+                timePickerIncrement:1,
+                timePicker12Hour:false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    });
+
+</script>

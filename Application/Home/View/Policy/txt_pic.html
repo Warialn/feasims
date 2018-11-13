@@ -1,0 +1,240 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;margin-top: -25px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">文本与图片混合策略</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-body" >
+                                <form class="form-inline" style="margin-left: 31%;color: white">
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label for="exampleInput-a"
+                                               style="width: 182px;text-align: right">中标文本占总数的比例：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="exampleInput-a"
+                                               placeholder="填写范围0~1">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label for="exampleInput-b"
+                                               style="width: 182px;text-align: right">中标文本数量：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="exampleInput-b"
+                                               placeholder="填写大于0的整数">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label for="exampleInput-c"
+                                               style="width: 182px;text-align: right">中标图片占总数的比例：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="exampleInput-c"
+                                               placeholder="填写范围0~1">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label for="exampleInput-d"
+                                               style="width: 182px;text-align: right">中标图片数量：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="exampleInput-d"
+                                               placeholder="填写大于0的整数">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label for="exampleInput-e"
+                                               style="width: 182px;text-align: right">图片与文本占总数的比例：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="exampleInput-e"
+                                               placeholder="填写范围0~1">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label for="exampleInput-f"
+                                               style="width: 182px;text-align: right">图片与文本的总数量：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="exampleInput-f"
+                                               placeholder="填写大于0的整数">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label for="exampleInput-t" style="width: 182px;text-align: right">统计周期：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="exampleInput-t"
+                                               placeholder="填写分钟">
+                                    </div>
+                                </form>
+                                <div class="text-center" style="margin-top: 10px">
+                                    <!--<div class="btn-group">-->
+                                        <!--&lt;!&ndash;<button type="button" class="btn btn-info" value="下发"></button>&ndash;&gt;-->
+                                        <!--<input type="button" class="btn btn-info" value="下发全部机房" id="btn-add">-->
+                                        <!--<button type="button" class="btn btn-info dropdown-toggle"-->
+                                                <!--data-toggle="dropdown" aria-expanded="false">-->
+                                            <!--<span class="caret"></span>-->
+                                            <!--&lt;!&ndash;<span class="sr-only">Toggle Dropdown</span>&ndash;&gt;-->
+                                        <!--</button>-->
+                                        <!--<ul class="dropdown-menu" role="menu" id="btn-ul">-->
+                                            <!--<li><a href="#">下发全部机房</a></li>-->
+                                            <!--<li><a href="#">前端子系统1</a></li>-->
+                                            <!--<li><a href="#">前端子系统2</a></li>-->
+                                            <!--<li><a href="#">前端子系统3</a></li>-->
+                                            <!--<li><a href="#">前端子系统4</a></li>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                    <button type="button" class="btn btn-info" style="margin-left: 10px">下发全部机房</button>
+
+                                    <button type="button" class="btn btn-info" style="margin-left: 10px">恢复默认值</button>
+                                </div>
+
+                                <table class="table table-bordered table-hover" style="margin-top: 20px;text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th>中标文本占总比例</th>
+                                        <th>中标文本数量</th>
+                                        <th>中标图片占总比例</th>
+                                        <th>中标图片数量</th>
+                                        <th>图片与文本占总比例</th>
+                                        <th>图片与文本的总数量</th>
+                                        <th>下发成功机房个数</th>
+                                        <th>下发失败机房个数</th>
+                                        <th>下发时间</th>
+                                        <td>操作</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>15</td>
+                                        <td></td>
+                                        <td>11</td>
+                                        <td>5</td>
+                                        <td>56</td>
+                                        <td style="color: blue;cursor: pointer" data-toggle="modal"
+                                            data-target="#myModal-cg">3
+                                        </td>
+                                        <td style="color: blue;cursor: pointer" data-toggle="modal"
+                                            data-target="#myModal-sb">2
+                                        </td>
+                                        <td>2017/12/30 10:42:40</td>
+                                        <td>--</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>90</td>
+                                        <td></td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>300</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>2017/12/30 10:42:40</td>
+                                        <td><a href="#"
+                                               style="background-color:#1ABC9C;color: white;padding: 4px;">重新下发</a></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <!-- 下发成功 模态框（Modal） -->
+                                <div class="modal fade" id="myModal-cg" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">下发成功机房个数</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                                    <thead>
+                                                    <tr style="background-color: #E8F1F6">
+                                                        <th>机房名称</th>
+                                                        <th>设备名称</th>
+                                                        <th>状态</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>机房1</td>
+                                                        <td>设备1</td>
+                                                        <td>成功</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>机房2</td>
+                                                        <td>设备2</td>
+                                                        <td>成功</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>机房23</td>
+                                                        <td>设备23</td>
+                                                        <td>成功</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 下发失败 模态框（Modal） -->
+                                <div class="modal fade" id="myModal-sb" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sb" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sb">下发失败机房个数</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                                    <thead>
+                                                    <tr style="background-color: #E8F1F6">
+                                                        <th>机房名称</th>
+                                                        <th>设备名称</th>
+                                                        <th>状态</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>机房1</td>
+                                                        <td>设备1</td>
+                                                        <td>失败</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>机房2</td>
+                                                        <td>设备2</td>
+                                                        <td>失败</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $("#btn-ul").on("click", "li", function () {
+        var a = $(this).text();
+//        alert(a);
+        $("#btn-add").val("下发" + a)
+    });
+</script>

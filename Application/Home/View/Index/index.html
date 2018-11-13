@@ -1,0 +1,494 @@
+<div class="app-container no-padding">
+    <div class="row content-container">
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row  no-margin-bottom">
+                    <div class="card-body" style="width: 1259px;margin-top: -10px">
+                        <div class="indexLeft">
+                            <h4>机房概况</h4>
+                            <div class="leftSpan">
+                                <p>不良文件总数：<span id='city_buliang_count'>{$data.buliang_count}</span></p>
+                                <p>机房总数：<span id="city_lab_count">{$data.lab_count}</span></p>
+                                <p>文本总数：<span id="city_text_count">{$data.text_count}</span></p>
+                                <p>图片总数：<span id="city_pic_count">{$data.pic_count}</span></p>
+                            </div>
+                            <div class="leftUl" id="leftUl">
+                                <volist name="lab_data" id="lab_info">
+                                    <div class="roomList"><p><span class="roomRadius"></span><img src="__PUBLIC__/img/homeRoom.png" alt=""><a href="#" style=""><span id="lab_name">{$lab_info['lab_name']}</span></a></p><p class="roomAll">不良文件总数：<span id="lab_buliang_count">{$lab_info['buliang_count']}</span> </p></div>
+                                </volist>
+
+                            </div>
+                        </div>
+                        <div class="indexCenter">
+                            <!--<div id="china-map" style="height:570px;width: 590px;float:left;"></div>-->
+                            <div id="main" style="height:570px;width: 590px;float:left;"></div>
+                        </div>
+                        <div class="indexRight">
+                            <div class="homeOne">
+                                <p>不良信息类型统计</p>
+                                <div>
+                                    <i class="glyphicon glyphicon-hdd"></i>
+                                    机房总数：<span id="lab">{$lab_count}</span>
+                                </div>
+                                <div>
+                                    <i class="icon fa fa-desktop"></i>
+                                    文本总数：<span id="text">{$text_count}</span>
+                                </div>
+                                <div>
+                                    <i class="icon glyphicon glyphicon-picture"></i>
+                                    图片总数：<span id="pic">{$pic_count}</span>
+                                </div>
+                                <!-- <div>
+                                    <i class="icon glyphicon glyphicon-music"></i>
+                                    音频总数：<input id='audio' >
+                                </div>
+                                <div>
+                                    <i class="icon glyphicon glyphicon-facetime-video"></i>
+                                    视频总数：<input id='video' >
+                                </div>
+                                <div>
+                                    <i class="glyphicon glyphicon-print"></i>
+                                    钓鱼总数：<input id='text' >
+                                </div> -->
+
+
+                            </div>
+                            <div class="homeTwo">
+                                <p>
+                                    <span>不良信息类型统计</span>
+                                    <span>不良信息机房分布</span>
+                                </p>
+                                <div id="container_a"></div>
+                                <div id="container_b"></div>
+                            </div>
+                            <div class="homeThree">
+                                <p>不良信息趋势分布</p>
+                                <div id="container_e"></div>
+                            </div>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    echarts.registerMap('zhejiang', zhejiangJson);//hennanJson名称取自henan.js里的var  henanJson变量名
+    var chart = echarts.init(document.getElementById('main'));
+    chart.setOption({
+        series: [{
+            type: 'map',
+            map: 'zhejiang',
+            zoom: 1.2,
+            roam: true,
+            selectedMode: 'single',
+            label: {
+                normal: {
+                    show: true,
+                    textStyle: {
+                        fontSize: 9,
+                    }
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontStyle: 'oblique',
+                        fontSize: 7,
+                    }
+                }
+            },
+            itemStyle: {
+                normal: {
+                    show: true,
+                    areaColor: "#C5DDF8",
+                    borderColor: "#FCFCFC",
+                    borderWidth: "1"
+                },
+//                emphasis: {label: {show: true}}
+            },
+            data: [
+                {name: "嘉兴市", selected: true}
+            ]
+        }],
+    });
+    chart.on('click', function (params) {
+        var data = {};
+        data.data = params.data.name;
+        $.ajax({
+            type: "get",
+            url: "__URL__/get_city",
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                $('#city_text_count').html(data.data.text_count);
+                $('#city_pic_count').html(data.data.pic_count);
+                $('#city_lab_count').html(data.data.lab_count);
+                /* $('#lab_buliang_count').html(data.lab_data[0].buliang_count);
+                 $('#lab_name').html(data.lab_data[0].lab_name);*/
+                $('#city_buliang_count').html(data.data.buliang_count);
+                var str = '';
+                if (data.lab_data) {
+                    $.each(data.lab_data, function (index, value) {
+
+                        str += '<div class="roomList"><p><span class="roomRadius"></span><img src="__PUBLIC__/img/homeRoom.png" alt=""><a href="#" style=""><span id="lab_name">' + value.lab_name + '</span></a></p><p class="roomAll">不良文件总数：<span id="lab_buliang_count">' + value.buliang_count + '</span> </p></div>';
+                    });
+                }
+                $("#leftUl").html(str);
+
+            }
+        })
+    })
+
+
+    //    var chart = echarts.init(document.getElementById('china-map')),
+    //        features,
+    //        name;
+    //    $.getJSON('__PUBLIC__/js/echart/echart/data/china.json', function (data) {
+    //        echarts.registerMap('china', data);
+    //        features = data.features,
+    //            name;
+    //        chart.setOption({
+    //            series: [{
+    //                type: 'map',
+    //                zoom: 1.2,
+    //                mapType: 'china',
+    //                roam: true,
+    //                selectedMode: 'single',
+    //                label: {
+    //                    normal: {
+    //                        show: true,
+    //                        textStyle: {
+    //                            fontSize: 9,
+    //                        }
+    //                    },
+    //                    emphasis: {
+    //                        show: true,
+    //                        textStyle: {
+    //                            fontStyle: 'oblique',
+    //                            fontSize: 7,
+    //                        }
+    //                    }
+    //                },
+    //                visualMap: {
+    //                    min: 0,
+    //                    max: 500,
+    //                    x: 'top',
+    //                    y: 'left',
+    //                    itemWidth: 10,
+    //                    calculable: false,
+    //                    /* color : [ '#FFA200','#87CEFA'], */
+    //                    text: ['高', '低'], // 文本，默认为数值文本
+    ////                    calculable : true
+    //                },
+    //                itemStyle: {
+    ////                    normal:{
+    ////                        label:{show:true},
+    ////                        borderWidth:1,//省份的边框宽度
+    //////                                areaColor:"red",
+    ////                    },
+    //                    normal: {
+    //                        show: true,
+    //                        areaColor: "#C5DDF8",
+    //                        borderColor: "#FCFCFC",
+    //                        borderWidth: "1"
+    //                    },
+    //                    emphasis: {label: {show: true}}
+    //                },
+    //                data: [
+    //                    {name:"南海诸岛",
+    //                        itemStyle:{
+    //                            normal:{opacity:0,label:{show:false},borderWidth:"0",borderColor:"#10242b",areaStyle:{color:'#10242b'}},
+    //                            emphasis:{opacity:0,label:{show:false}}
+    //                        }
+    //                    },
+    ////                    {name: "浙江省", selected: true}
+    //                ],
+    //                showLegendSymbol: false,
+    //            }]
+    //        });
+    //        chart.on('click', function (params) {
+    //            var data = {};
+    //            data.data = params.data.name;
+    //            $.ajax({
+    //                type: "get",
+    //                url: "__URL__/index",
+    //                data: data,
+    //                dataType: 'json',
+    //                success: function (data) {
+    //                    $('#text').html(data.data.text_count);
+    //                    $('#pic').html(data.data.pic_count);
+    //                    $('#lab').html(data.data.lab_count);
+    //                    aaa(data);
+    //                }
+    //            })
+    //        })
+    //    });
+    //    chart.on("click", function(da)  {
+    //        name = da.data.name,
+    //            id = "";
+    //        if (features.type === "FeatureCollection") {
+    ////            for(var i in features.features){
+    //////                console.log(features.features[i].properties.name)
+    ////                if(features.features[i].properties.name === name){
+    ////                    id = features.features[i].properties.id;
+    ////                }
+    ////            };
+    ////            $.getJSON("data/geometryCouties/"+id+".json",(sonData)=>{
+    ////                features = sonData;
+    ////                echarts.registerMap('china', sonData);
+    ////                chart.setOption({
+    ////                    series: [{
+    ////                        type: 'map',
+    ////                        map: 'china',
+    ////                        data:[],
+    ////                        roam: true,
+    ////                        selectedMode: 'single',
+    ////                    }]
+    ////                });
+    ////            })
+    //        } else {
+    //            for (var i in features) {
+    ////                console.log(features[i].properties.name)
+    //                if (features[i].properties.name === name) {
+    //                    id = features[i].properties.id;
+    //                }
+    //            }
+    //            $.getJSON("__PUBLIC__/js/echart/echart/data/geometryProvince/" + id + ".json", function(sonData)  {
+    //                features = sonData;
+    //                echarts.registerMap('china', sonData);
+    //                chart.setOption({
+    //                    series: [{
+    //                        type: 'map',
+    //                        map: 'china',
+    //                        left: '25%',
+    //                        top: '25%',
+    //                        width: '200%',
+    //                        data: [
+    //                            {name:"南海诸岛",
+    //                                itemStyle:{
+    //                                    normal:{opacity:0,label:{show:false},borderWidth:"0",borderColor:"#10242b",areaStyle:{color:'#10242b'}},
+    //                                    emphasis:{opacity:0,label:{show:false}}
+    //                                }
+    //                            }
+    //                        ],
+    //                        zoom: 1.2,
+    //                        roam: true,
+    //                        selectedMode: 'single',
+    //                        label: {
+    //                            normal: {
+    //                                show: true,
+    //                                textStyle: {
+    //                                    fontSize: 9,
+    //                                }
+    //                            },
+    //                            emphasis: {
+    //                                show: true,
+    //                                textStyle: {
+    //                                    fontStyle: 'oblique',
+    //                                    fontSize: 9,
+    //                                }
+    //                            }
+    //                        },
+    //                    }]
+    //                });
+    //                chart.on('click', function (params) {
+    //                    var data = {};
+    //                    data.data = params.data.name;
+    //                    $.ajax({
+    //                        type: "get",
+    //                        url: "__URL__/get_city",
+    //                        data: data,
+    //                        dataType: 'json',
+    //                        success: function (data) {
+    //                            console.log(data)
+    //                            $('#city_text_count').html(data.data.text_count);
+    //                            $('#city_pic_count').html(data.data.pic_count);
+    //                            $('#city_lab_count').html(data.data.lab_count);
+    //                           /* $('#lab_buliang_count').html(data.lab_data[0].buliang_count);
+    //                            $('#lab_name').html(data.lab_data[0].lab_name);*/
+    //                            $('#city_buliang_count').html(data.data.buliang_count);
+    //                            var str = '';
+    //                            if (data.lab_data) {
+    //                                $.each(data.lab_data, function (index, value) {
+    //
+    //                                   str +='<div class="roomList"><p><span class="roomRadius"></span><img src="__PUBLIC__/img/homeRoom.png" alt=""><a href="#" style=""><span id="lab_name">'+value.lab_name+'</span></a></p><p class="roomAll">不良文件总数：<span id="lab_buliang_count">'+value.buliang_count+'</span> </p></div>';
+    //                                });
+    //                            }
+    //                            $("#leftUl").html(str);
+    //
+    //                        }
+    //                    })
+    //                })
+    //            })
+    //        }
+    //    });
+    //function aaa(data) {
+    chart1 = $('#container_a').highcharts({
+        chart: {
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: null
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y} 个</b>'
+        },
+        plotOptions: {
+            pie: {
+                size: 170,
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: 'white',
+                    distance: -20
+                }
+            }
+        },
+        colors: [
+            '#E4D354',
+            '#90ED7D',
+            '#F45B5B'
+
+        ],
+        series: [{
+            type: 'pie',
+            data: [{$c_res}]
+        }]
+    });
+    chart2 = $('#container_b').highcharts({
+        chart: {
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: null
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y} 个</b>'
+        },
+        plotOptions: {
+            pie: {
+                size: 170,
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: 'white',
+                    distance: -20
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            data: [{$l_res}]
+
+        }]
+    });
+    //        console.log(2013,5,17);
+    //        console.log(parseInt(data.data.today_res.date[0]),parseInt(data.data.today_res.date[1]),parseInt(data.data.today_res.date[2]))
+    //        console.log([Date.UTC(2013,5,17),8]);
+    //        console.log([Date.UTC(parseInt(data.data.yesterday_res.date[0]),parseInt(data.data.yesterday_res.date[1]),parseInt(data.data.yesterday_res.date[2])),parseInt(data.data.yesterday_res.count)]);
+
+    chart3 = $('#container_e').highcharts({
+        chart: {
+            zoomType: 'x',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+        },
+        colors: [
+            '#FFE73A',
+            '#32d2c9'
+        ],
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: '%m-%d',
+                week: '%m-%d',
+                month: '%Y-%m',
+                year: '%Y'
+            },
+            labels: {
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color: '#fff'
+
+                }
+            }
+        },
+        tooltip: {
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: '%Y-%m-%d',
+                week: '%m-%d',
+                month: '%Y-%m',
+                year: '%Y'
+            }
+        },
+        yAxis: {
+            title: {
+                text: null
+            },
+            gridLineColor: '#084669',
+            gridLineDashStyle: 'longdash',
+            lineColor: '#CCD6EB',
+            lineWidth: 1,
+            labels: {
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color: '#fff'
+
+                }
+            }
+        },
+        series: [
+            {
+                name: '中标趋势',
+                data: [
+                    {$seven_res}
+                    /*[Date.UTC(parseInt(data.data.sixday_res.date[0]),parseInt(data.data.sixday_res.date[1])-1,parseInt(data.data.sixday_res.date[2])),data.data.sixday_res.count],
+                     [Date.UTC(parseInt(data.data.fiveday_res.date[0]),parseInt(data.data.fiveday_res.date[1])-1,parseInt(data.data.fiveday_res.date[2])),data.data.fiveday_res.count],
+                     [Date.UTC(parseInt(data.data.fourday_res.date[0]),parseInt(data.data.fourday_res.date[1])-1,parseInt(data.data.fourday_res.date[2])),data.data.fourday_res.count],
+                     [Date.UTC(parseInt(data.data.threeday_res.date[0]),parseInt(data.data.threeday_res.date[1])-1,parseInt(data.data.threeday_res.date[2])),data.data.threeday_res.count],
+                     [Date.UTC(parseInt(data.data.before_yesterday_res.date[0]),parseInt(data.data.before_yesterday_res.date[1])-1,parseInt(data.data.before_yesterday_res.date[2])),data.data.before_yesterday_res.count],
+                     [Date.UTC(parseInt(data.data.yesterday_res.date[0]),parseInt(data.data.yesterday_res.date[1])-1,parseInt(data.data.yesterday_res.date[2])),data.data.yesterday_res.count],
+                     [Date.UTC(parseInt(data.data.today_res.date[0]),parseInt(data.data.today_res.date[1])-1,parseInt(data.data.today_res.date[2])),data.data.today_res.count],*/
+                ]
+            }
+        ]
+    });
+    //}
+    setInterval(function(){
+     $(".roomRadius").fadeOut(500).fadeIn(500);
+     },400);
+</script>
+

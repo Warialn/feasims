@@ -1,0 +1,423 @@
+
+<div id="aaBox">
+    <div class="app-container" style="">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">定制域名表配置</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label>域名：</label>
+                                                <input type="text" name="host" id="host">
+                                            </li>
+                                            <li>
+                                                <label>用户名：</label>
+                                                <input type="text" name="username" id="username">
+                                            </li>
+                                            <!--<li>-->
+                                                <!--<label>监测标识：</label>-->
+                                                <!--<select name="monitor_flag" id="monitor_flag">-->
+                                                    <!--<option value="">请选择</option>-->
+                                                    <!--<option value="1">开启</option>-->
+                                                    <!--<option value="0">关闭</option>-->
+                                                <!--</select>-->
+                                            <!--</li>-->
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card-body" style="padding-top: 10px;min-height: 500px">
+                                {:authcheck('Home/System/user_add','
+                                <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#myModal-add">
+                                    <span class="glyphicon glyphicon-plus info_del_l " aria-hidden="true"
+                                          style="margin-right: 5px;color: greenyellow"></span>添加
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Policy/famous_upload','
+                                <a href="#" style="margin-right: 10px" id="leading_in" data-toggle="modal"
+                                   data-target="#myModal_leading_in">
+                                    <span class="glyphicon glyphicon-log-in"
+                                          style="margin-right: 5px;color: #00BD8B"></span>导入
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Policy/policy_issued','
+                                <a href="#" style="margin-right: 10px" id="lssued">
+                                    <!-- <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#myModal-lssued"> -->
+                                    <span class="glyphicon glyphicon-save"
+                                          style="margin-right: 5px;color: #FFBE44"></span>下发
+                                </a>
+                                ','')}
+                                <table class="table table-bordered table-hover"
+                                       style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">用户名</th>
+                                        <!--<th style="text-align:center">监测标识</th>-->
+                                        <th style="text-align:center">备注</th>
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="res" id="info">
+                                        <tr>
+                                            <td>{$info['host']}</td>
+                                            <td>{$info['username']}</td>
+                                            <!--<td>{$info['monitor_flag']}</td>-->
+                                            <td>{$info['remark']}</td>
+                                            <td>
+                                                <span data="{$info['id']}">
+                                                    <span title="编辑" class="glyphicon glyphicon-pencil deleteEdit" aria-hidden="true" data-toggle="modal"  style="color: #1ABC9C;margin-right: 5px;margin-left: 5px;cursor: pointer" data-target="#myModal-edit"></span>
+                                                    <span class="glyphicon glyphicon-trash info_del_l deleteDef" aria-hidden="true" style="color: red;cursor: pointer;" data-toggle="modal"  data-target="#myModal-sc"></span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                                <!--  导入 模态框  -->
+                                <div class="modal fade" id="myModal_leading_in" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-add" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-add">导入</h4>
+                                            </div>
+                                            <form id="form_upload" enctype="multipart/form-data"
+                                                  action="__URL__/domain_upload" method="post">
+                                                <div class="modal-body" style="margin-bottom: 20px;">
+
+                                                    <div class="form-group">
+                                                        <div class="col-sm-9" style="margin-bottom:10px;">
+                                                            <a href="__ROOT__/DownLoad/host_list.xlsx"
+                                                               style="color:#22a7f0;">下载模板</a>
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+
+                                                    <div class="form-group">
+
+                                                        <div class="col-sm-9">
+                                                            <div class="widget-main">
+                                                                <input type="file" id="id-input-file-2"
+                                                                       name="user_file"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="space-4"></div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="submit" class="btn btn-info" value="确定">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        关闭
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  编辑 模态框 -->
+                                <div class="modal fade" id="myModal-edit" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-edit" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-edit">编辑定制域名表</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline" id="addUser_edit">
+                                                    <div class="form-group" >
+                                                        <span style="color: red">*</span>
+                                                        <label style="margin-left: 16px">域名：</label>
+                                                        <input type="text" name="host"  class="form-control host input-sm" style="width: 168px"  placeholder="请填写域名" required>
+                                                    </div>
+                                                    <br>
+                                                    <input type="password" style="display: none;" />
+                                                    <div class="form-group" style="margin-top: 10px;margin-left: 12px">
+                                                        <label>用户名：</label>
+                                                        <input type="text" name="username"  class="form-control username input-sm" style="width: 168px"    placeholder="请填写用户名" >
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group"  style="margin-top: 10px;margin-left: 12px">
+                                                        <label style="margin-left: 14px">密码：</label>
+                                                        <!--<input type="password" name="user_pass" id="user_pass" class="form-control input-sm" style="width: 168px"  pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_.!@#$%^&*]{6,12}$"  title="密码请输入6-12位字母数字特殊字符,且必须包含字母和数字"  placeholder="请填写密码" required>-->
+                                                        <input type="password" name="password"  class="form-control password input-sm" style="width: 168px"   placeholder="请填写密码" >
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin: 10px 0;margin-left: 12px">
+                                                        <label style="margin-left: 14px">备注：</label>
+                                                        <input type="text" name="remark"  class="form-control remark input-sm" style="width: 168px"   placeholder="请填写备注" >
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="id_edit" >
+                                                        <input type="button" class="btn btn-info" id="edit_add" value="确定">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal -->
+                                </div>
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">添加定制域名表</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                  <form class="form-inline" id="addUser_form" action="__URL__/domain_add" method="get">
+                                                      <div class="form-group" >
+                                                          <span style="color: red">*</span>
+                                                          <label style="margin-left: 16px">域名：</label>
+                                                          <input type="text" name="host"  class="form-control input-sm" style="width: 168px"  placeholder="请填写域名" required>
+                                                      </div>
+                                                      <br>
+                                                      <input type="password" style="display: none;" />
+                                                      <div class="form-group" style="margin-top: 10px;margin-left: 12px">
+                                                          <label>用户名：</label>
+                                                          <input type="text" name="username"  class="form-control input-sm" style="width: 168px"    placeholder="请填写用户名" >
+                                                      </div>
+                                                      <br>
+                                                      <div class="form-group"  style="margin-top: 10px;margin-left: 12px">
+                                                          <label style="margin-left: 14px">密码：</label>
+                                                          <!--<input type="password" name="user_pass" id="user_pass" class="form-control input-sm" style="width: 168px"  pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_.!@#$%^&*]{6,12}$"  title="密码请输入6-12位字母数字特殊字符,且必须包含字母和数字"  placeholder="请填写密码" required>-->
+                                                          <input type="password" name="password"  class="form-control input-sm" style="width: 168px"   placeholder="请填写密码" >
+
+                                                      </div>
+                                                      <br>
+                                                      <div class="form-group" style="margin: 10px 0;margin-left: 12px">
+                                                          <label style="margin-left: 14px">备注：</label>
+                                                          <input type="text" name="remark"  class="form-control input-sm" style="width: 168px"   placeholder="请填写备注" >
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                          <button type="submit" class="btn btn-info">确定</button>
+                                                          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                      </div>
+                                                  </form>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal -->
+                                </div>
+                                <!--  删除   -->
+                                <div class="modal fade" id="myModal-sc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>是否删除此数据？</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" id="id" >
+                                                <button type="button" class="btn btn-info" id="del">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+
+                                <!--  下发 模态框  -->
+                                <!-- <div class="modal fade" id="myModal-lssued" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-lssued" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-lssued">下发</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" style="margin-left: 12px">
+                                                        <label style="margin-left: 12px">下发机房：</label>
+                                                        <select id="house_id" class="selectpicker bla bla bli" multiple data-live-search="true" style="height: 28px;width: 168px">
+                                                            <option value="">请选择</option>
+                                                            <volist name="rooms" id="room_info">
+                                                                <option value="{$room_info['lab_id']}">{$room_info['lab_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="lssued">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--</div>-->
+
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript">
+    $('#host').val('<?=$host?>');
+    $('#username').val("<?=$username?>");
+    $(window).on('load', function () {
+        $('.selectpicker').selectpicker({
+            'selectedText': 'cat'
+        });
+    });
+    $(document).on("click",".glyphicon-pencil",function(){
+        var row = $(this).parents('tr');
+        $('#id').val($(this).attr('data'));
+        $(".host").val(row.children('td:eq(0)').html());
+        $(".username").val(row.children('td:eq(1)').html());
+        $(".remark").val(row.children('td:eq(2)').html());
+
+    })
+    $(document).ready(function () {
+        $("#form_upload").ajaxForm({
+            success: function (data) {
+                if (data.status === 'success') {
+                    alert("导入成功");
+                    window.location.reload();
+                } else if (data.status === 'failed') {
+                    alert(data.message);
+                } else {
+                    alert(data.info);
+                }
+            }
+        });
+        $("#addUser_form").ajaxForm({
+            success: function (data) {
+                console.log(data)
+                if (data.status === 'success') {
+                    alert("添加成功");
+                    window.location.reload();
+                } else if (data.status === 'failed') {
+                    alert(data.message);
+                } else {
+                    alert(data.info);
+                }
+            }
+        });
+
+
+    })
+    $('#lssued').click(function () {
+//        var id = [];
+        var type = '14';
+        var id = $("#house_id").val();
+        $.ajax({
+            type: 'get',
+            url: '__URL__/domain_issued',
+            data: {'house_id': id, 'type': type},
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 'success') {
+                    alert('下发成功');
+                } else {
+                    alert(data.info);
+                }
+            }
+        });
+        $("#myModal-add").modal('hide')
+    });
+    $('.table').on('click','.deleteEdit',function () {
+        var id = $(this).parent().attr('data');
+        $("#id_edit").val(id);
+    });
+    $("#edit_add").click(function () {
+        var data={};
+        data.id = $("#id_edit").val();
+        data.host=$("#addUser_edit .host").val();
+        data.username=$("#addUser_edit .username").val();
+        data.password=$("#addUser_edit .password").val();
+        data.remark=$("#addUser_edit .remark").val();
+        console.log(data)
+        $("#myModal-edit").modal('hide');
+        $.ajax({
+            type: "get",
+            url: "__URL__/domain_edit",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('编辑成功');
+                    window.location.reload();
+                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+
+    });
+
+    //删除
+    $('.table').on('click','.deleteDef',function () {
+        var id = $(this).parent().attr('data');
+        $("#id").val(id);
+    });
+    $('#del').click(function () {
+        $("#myModal-sc").modal('hide');
+        var id = $("#id").val();
+        $.ajax({
+            type: "get",
+            url: "__URL__/domain_delete",
+            data: {'id':id},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+</script>

@@ -1,0 +1,453 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>人工审核管理</li>
+            <li class="active" style="color: white">文本审核结果</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 24px">域名：</label>
+                                                <input type="text" name="hitdomain" id="hitdomain" >
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 24px">文本URL：</label>
+                                                <input type="text" name="hiturl" id="hiturl">
+                                            </li>
+                                            <li>
+                                                <label>IP：</label>
+                                                <input type="text" name="hitip" id="hitip">
+                                            </li>
+                                            <li>
+                                                <label>审核结果：</label>
+                                                <select name="audit_status" id="audit_status">
+                                                    <option value="">全部</option>
+                                                    <option value="1">违规</option>
+                                                    <option value="2">不确定</option>
+                                                    <option value="3">正常</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>首次检出日期：</label>
+                                                <input class="date-range-picker" type="text" name="time" id="time" data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="hChart">
+                                   <div class="chartUl">
+                                       <p>按审核状态统计</p>
+                                       <div id="container_a"></div>
+                                   </div>
+                                   <!--<div class="chartUl">-->
+                                       <!--<p>按机房统计</p>-->
+                                       <!--<div id="container_c"></div>-->
+                                   <!--</div>-->
+                                   <div class="chartUl">
+                                       <p>中标趋势（近七天）</p>
+                                       <div id="container_e"></div>
+                                   </div>
+                                </div>
+                                <table class="table table-bordered table-hover" style="width: 1229px;text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">文本详情</th>
+                                        <th style="text-align:center">中标关键字</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">URL</th>
+                                        <th style="text-align:center">IP</th>
+                                        <th style="text-align:center">审核结果</th>
+                                        <th style="text-align:center">访问量</th>
+                                        <th style="text-align:center">内容类型</th>
+                                        <th style="text-align:center">审核人</th>
+                                        <th style="text-align:center">首次检出日期</th>
+                                        <th style="text-align:center">审核日期</th>
+                                        <!-- <th style="text-align:center">机房名称</th> -->
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                   <volist name="res" id="info">
+                                            <tr>
+                                                <td>
+                                                    <form action="__URL__/text_info" method="post">
+                                                        <input type='hidden' name="textword" value="{$info['hit_content']}">
+                                                        <input type="hidden" name="filepath" value="{$info['file_path']}">
+                                                        <button type="submit" style="margin-top: 0;margin-bottom: 0; font-weight: bold;color: blue" class="btn btn-xs btn-link">详情</button>
+                                                    </form>
+                                                </td>
+                                                <td title="{$info.hit_content}">{$info['hit_content'] | subtext=5}</td>
+                                                <td title="{$info.domain}"><a href="{$info.domain}" style="color: blue">{$info['domain'] | subtext=9}</a></td>
+                                                <td title="{$info.url}"><a href="{$info.url}"  style="color: blue" >{$info.url|subtext=18}</a></td>
+                                                <td>{$info.ip}</td>
+                                                <td>{$info.audit_status}</td>
+                                                <td>{$info.hit_data_num}</td>
+                                                <td>{$info.content_type}</td>
+                                                <td>{$info.draw_person}</td>
+                                                <td>{$info.hit_time|date="Y/m/d",###}</td>
+                                                <td>{$info.audit_time|date="Y/m/d",###}</td>
+                                               <!--  <td>{$info.lab_name}</td> -->
+                                                <td style="text-align: left">
+                                                    <span data="{$info['id']}">
+                                                     
+                                                    <if condition="$info['is_ip'] eq '1'">
+                                                        {:authcheck('Home/Text/do_text_result','
+                                                        <button class="btn btn-default btn-xs ip_1 glyphicon glyphicon-plus" style="border-radius: 13px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">IP黑名单</button>
+                                                    ','')}
+                                                        <elseif condition="$info['is_ip'] eq '0'"/>
+                                                        {:authcheck('Home/Text/do_text_result','
+                                                        <button class="btn btn-success btn-xs ip glyphicon glyphicon-plus"  style="border-radius: 13px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">IP黑名单</button>
+                                                    ','')}
+                                                        <else/> 
+                                                    </if>
+                                                    <if condition="$info['is_url'] eq '1'">
+                                                        {:authcheck('Home/Text/do_text_result','
+                                                        <button class="btn btn-default btn-xs url_1 glyphicon glyphicon-plus" style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">URL黑名单</button>
+                                                    ','')}
+                                                        <elseif condition="$info['is_url'] eq '0'"/>
+                                                        {:authcheck('Home/Text/do_text_result','
+                                                        <button class="btn btn-danger btn-xs url glyphicon glyphicon-plus"  style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">URL黑名单</button>
+                                                    ','')}
+                                                        <else/> 
+                                                    </if>
+                                                    <if condition="$info['is_miss'] eq '1'">
+                                                        {:authcheck('Home/Text/do_text_result','
+                                                        <button class="btn btn-default btn-xs miss_judge_1 glyphicon glyphicon-plus" style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">误判库</button>
+                                                    ','')}
+                                                        <elseif condition="$info['is_miss'] eq '0'"/>
+                                                        {:authcheck('Home/Text/do_text_result','
+                                                        <button class="btn btn-info btn-xs miss_judge glyphicon glyphicon-plus"  style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">误判库</button>
+                                                    ','')}<else/>
+                                                        
+                                                    </if>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#hitip').val("<?=$hitip?>");
+    $('#hiturl').val("<?=$hiturl?>");
+    $('#hitdomain').val("<?=$hitdomain?>");
+    $('#time').val("<?=$time?>");
+    $('#audit_status').val("<?=$audit_status?>");
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>
+<script>
+    $(function () {
+        $('#container_a').highcharts({
+            chart: {
+                type: 'column',
+                backgroundColor: 'rgba(0,0,0,0.3)'
+            },
+            credits: {
+                enabled: false
+            },
+            colors:[
+                '#E4D354',
+                '#F45B5B',
+                '#90ED7D',
+                '#F7A35C'
+        ],
+            title: {
+                text: null
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color:'#fff'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: null
+                },
+                gridLineColor: '#084669',
+                gridLineDashStyle: 'longdash',
+                lineColor: '#fff',
+                lineWidth: 1,
+                color:'#fff',
+                labels: {
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color:'#fff'
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '<b>{point.y} 个</b>'
+            },
+            plotOptions: {
+                column: {
+                    colorByPoint:true
+                },
+                series: {
+                    borderColor: 'rgba(0,0,0)',
+                    borderRadius: 5
+                }
+            },
+            series: [{
+                data: [{$c_res}]
+                    
+                
+            }]
+        });
+    });
+    $(function () {
+        $('#container_c').highcharts({
+            chart: {
+                backgroundColor: 'rgba(0,0,0,0.3)',
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: null
+            },
+            tooltip: {
+                pointFormat: '<b>{point.y} 个</b>'
+            },
+            plotOptions: {
+                pie: {
+                    size:170,
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color:'white'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                data: [
+                    {$l_res}
+                ]
+            }]
+        });
+    });
+    $('#container_e').highcharts({
+        chart: {
+            zoomType: 'x',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+        },
+        colors:[
+            '#FFE73A',
+            '#32d2c9'
+        ],
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: '%m-%d',
+                week: '%m-%d',
+                month: '%Y-%m',
+                year: '%Y'
+            },
+            labels: {
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color:'#fff'
+
+                }
+            }
+        },
+        tooltip: {
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: '%Y-%m-%d',
+                week: '%m-%d',
+                month: '%Y-%m',
+                year: '%Y'
+            }
+        },
+        yAxis: {
+            title: {
+                text: null
+            },
+            gridLineColor: '#084669',
+            gridLineDashStyle: 'longdash',
+            lineColor: '#CCD6EB',
+            lineWidth: 1,
+            labels: {
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color:'#fff'
+
+                }
+            }
+        },
+        series:[
+            {
+                name:'文件个数',
+                data:[
+                {$three_res}
+
+                ]
+            }
+        ]
+    });
+
+    $(".table").on('click','.ip' ,function () {
+        var data={};
+        data.id=$(this).parent().attr('data');
+        $(this).css('cursor','not-allowed');
+        $(this).css('border','#EDEDED');
+        $(this).css('color','#333333');
+        $(this).css('backgroundColor','#F0F0F0');
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_result_ip",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//               if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+    });
+    $(".table").on('click','.url' ,function () {
+        var data={};
+        data.id=$(this).parent().attr('data');
+        $(this).css('cursor','not-allowed');
+        $(this).css('border','#EDEDED');
+        $(this).css('color','#333333');
+        $(this).css('backgroundColor','#F0F0F0');
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_result_url",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//               if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+    });
+    $(".table").on('click','.miss_judge' ,function () {
+        var data={};
+        data.id=$(this).parent().attr('data');
+        $(this).css('cursor','not-allowed');
+        $(this).css('border','#EDEDED');
+        $(this).css('color','#333333');
+        $(this).css('backgroundColor','#F0F0F0');
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_result_missjudge",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//               if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+    });
+    $(".table .ip_1").hover(function(){
+        $(".ip_1").css('cursor','not-allowed');
+    },function(){
+
+    });
+    $(".table .url_1").hover(function(){
+        $(".url_1").css('cursor','not-allowed');
+    },function(){
+
+    });
+    $(".table .miss_judge_1").hover(function(){
+        $(".miss_judge_1").css('cursor','not-allowed');
+    },function(){
+
+    });
+
+</script>
+
+
+

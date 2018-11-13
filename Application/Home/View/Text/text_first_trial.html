@@ -1,0 +1,242 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>人工审核管理</li>
+            <li class="active" style="color: white">文本审核 — 初审</li>
+            <span style="float: right;margin-right: 30px">未审核数量：{$count}个</span>
+        </ol>
+        <div class="container-fluid" style="background: #0E75AF">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card"  style="background-color: #0E75AF">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 48px">域名：</label>
+                                                <input type="text" name="hitdomain" id="hitdomain" >
+                                            </li>
+                                            <li>
+                                                <label>文本URL：</label>
+                                                <input type="text" name="hiturl" id="hiturl">
+                                            </li>
+                                            <li>
+                                                <label>IP：</label>
+                                                <input type="text" name="hitip" id="hitip">
+                                            </li>
+                                            <li>
+                                                <label>首次检出日期：</label>
+                                                <input class="date-range-picker" type="text" name="time" id="time" data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                               <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9 ">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">文本详情</th>
+                                        <th style="text-align:center">中标关键字</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">URL</th>
+                                        <th style="text-align:center">IP</th>
+                                        <th style="text-align:center">内容类型</th>
+                                       <!--  <th style="text-align:center">机房名称</th> -->
+                                        <th style="text-align:center">首次检出日期</th>
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td><form action="__URL__/text_info" method="post">
+                                                    <input type='hidden' name="textword" value="{$info['textword']}">
+                                                    <input type="hidden" name="filepath" value="{$info['ruleurl']}">
+                                                    <button type="submit" style="color:blue;margin-top: 0;margin-bottom: 0px;font-weight: bold" class=" btn btn-xs btn-link">详情</button></form>
+                                                </td>
+                                                <td title="{$info.textword}">{$info['textword'] | subtext=15}</td>
+                                                <td title="{$info.textdomain}">
+                                                    <a href="{$info.textdomain}" style="color: blue">{$info.textdomain}</a>
+                                                </td>
+                                                <td title="{$info.texturl}">
+                                                    <a href="{$info.texturl}"  style="color: blue" >{$info.texturl|subtext=20}</a>
+                                                </td>
+                                                <td>{$info.textdstip}</td>
+                                                <td>{$info.textkeywordtype}</td>
+                                                <!-- <td>{$info.lab_name}</td> -->
+                                                <td>{$info.textarrtime|date="Y/m/d",###}</td>
+                                                <td>
+                                                    <span data="{$info['id']}" data2="{$info['ruleurl']}" data3="{$info['textfilename']}" data4="{$info['textupdatetime']}" data5="{$info['hit_data_num']}"  data6="{$info['lab_id']}" data7="{$info['textdstip']}"  data8="{$info['textarrtime']}">
+                                                    {:authcheck('Home/Text/do_text_first_trial','
+                                                    <button class="btn btn-success btn-xs normal"  style="border-radius: 13px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">正常</button>
+                                                    <button class="btn btn-danger btn-xs illegal"  style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">违规</button>
+                                                    <button class="btn btn-info btn-xs notSure"  style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">不确定</button>
+
+                                                    ','')}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </volist> 
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#hitip').val("<?=$hitip?>");
+    $('#hiturl').val("<?=$hiturl?>");
+    $('#hitdomain').val("<?=$hitdomain?>");
+    $('#time').val("<?=$time?>");
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+    $(".table").on('click','.normal' ,function () {
+        $(this).parent().parent().parent().remove();
+        var data={};
+//        $(this).parent().parent().attr({"disabled":"disabled"});
+        data.status='3';
+        data.id=$(this).parent().attr('data');
+        data.file_path=$(this).parent().attr('data2');
+        data.file_name=$(this).parent().attr('data3');
+        data.update_time=$(this).parent().attr('data4');
+        data.hit_data_num=$(this).parent().attr('data5');
+        data.lab_id=$(this).parent().attr('data6');
+        data.ip=$(this).parent().attr('data7');
+        data.index_time=$(this).parent().attr('data8');
+        data.textword = $(this).parents('tr').children('td:eq(1)').attr("title");
+        data.domain=$(this).parents('tr').children('td:eq(2)').attr("title");
+        data.url=$(this).parents('tr').children('td:eq(3)').attr("title");
+        data.content_type=$(this).parents('tr').children('td:eq(5)').text();
+        data.hit_time=$(this).parents('tr').children('td:eq(6)').text();
+        console.log(data);
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_text_first_trial",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//               if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+
+    });
+    $(".table").on('click','.illegal' ,function () {
+//        $(this).parent().parent().css("background-color","gray");
+        $(this).parent().parent().parent().remove();
+        var data={};
+        data.status='1';
+        data.id=$(this).parent().attr('data');
+        data.file_path=$(this).parent().attr('data2');
+        data.file_name=$(this).parent().attr('data3');
+        data.update_time=$(this).parent().attr('data4');
+        data.hit_data_num=$(this).parent().attr('data5');
+        data.lab_id=$(this).parent().attr('data6');
+        data.ip=$(this).parent().attr('data7');
+        data.index_time=$(this).parent().attr('data8');
+        data.textword = $(this).parents('tr').children('td:eq(1)').attr("title");
+        data.domain=$(this).parents('tr').children('td:eq(2)').attr("title");
+        data.url=$(this).parents('tr').children('td:eq(3)').attr("title");
+        data.content_type=$(this).parents('tr').children('td:eq(5)').text();
+        data.hit_time=$(this).parents('tr').children('td:eq(6)').text();
+        console.log(data);
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_text_first_trial",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//                if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+
+    });
+    $(".table").on('click','.notSure' ,function () {
+//        $(this).parent().parent().css("background-color","gray");
+        $(this).parent().parent().parent().remove();
+        var data={};
+        data.status='2';
+        data.id=$(this).parent().attr('data');
+        data.file_path=$(this).parent().attr('data2');
+        data.file_name=$(this).parent().attr('data3');
+        data.update_time=$(this).parent().attr('data4');
+        data.hit_data_num=$(this).parent().attr('data5');
+        data.lab_id=$(this).parent().attr('data6');
+        data.ip=$(this).parent().attr('data7');
+        data.index_time=$(this).parent().attr('data8');
+        data.textword = $(this).parents('tr').children('td:eq(1)').attr("title");
+        data.domain=$(this).parents('tr').children('td:eq(2)').attr("title");
+        data.url=$(this).parents('tr').children('td:eq(3)').attr("title");
+        data.content_type=$(this).parents('tr').children('td:eq(5)').text();
+        data.hit_time=$(this).parents('tr').children('td:eq(6)').text();
+        console.log(data);
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_text_first_trial",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//                if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+
+    })
+
+
+  
+
+</script>
+
+
+

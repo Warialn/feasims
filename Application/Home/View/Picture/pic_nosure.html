@@ -1,0 +1,294 @@
+<style>
+    .imgbox {
+        position:relative;
+    }
+    .probox img {
+        /*width:100px;*/
+        height:45px;
+        vertical-align:top;
+        /*text-align: center;*/
+    }
+    .showbox {
+        display:none;
+        position:fixed;
+        left:300px;
+        top:270px;
+        width:400px;
+        height:300px;
+        overflow:hidden;
+    }
+    .showbox img {
+        position:fixed;
+        height:300px;
+        width:300px;
+        cursor: pointer;
+    }
+    .hoverbox {
+        display:none;
+        position:absolute;
+        top:0;
+        height:45px;
+        width:100px;
+        cursor:move;
+        z-index:10;
+    }
+
+</style>
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>人工审核管理</li>
+            <li class="active" style="color: white">不确定图片</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 48px">域名：</label>
+                                                <input type="text" name="hitdomain" id="hitdomain" >
+                                            </li>
+                                            <li>
+                                                <label>图片URL：</label>
+                                                <input type="text" name="hiturl" id="hiturl">
+                                            </li>
+                                            <li>
+                                                <label>检出IP：</label>
+                                                <input type="text"  name="hitip" id="hitip">
+                                            </li>
+                                            <li>
+                                                <label>首次检出日期：</label>
+                                                <input class="date-range-picker" type="text" name="time" id="time" data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <li>
+                                                <label>审核日期：</label>
+                                                <input class="date-range-picker" type="text" name="audit_time" id="audit_time" data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">图片详情</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">URL</th>
+                                        <th style="text-align:center">IP</th>
+                                        <th style="text-align:center">审核人</th>
+                                        <th style="text-align:center">首次检出日期</th>
+                                        <th style="text-align:center">审核日期</th>
+                                        <!--<th style="text-align:center">机房名称</th>-->
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <!--<td>-->
+                                                    <!--<img src="{$info['file_path']}" alt="" style="height: 40px;">-->
+                                                <!--</td>-->
+                                                <td style="position: relative">
+                                                    <div class="imgbox">
+                                                        <div class="probox">
+                                                            <img src="{$info['file_path']}" alt="">
+                                                            <div class="hoverbox"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td  style="line-height: 40px"><a style="color:blue;" href="{$info['domain']}" >{$info['domain']}</a></td>
+                                                <td style="line-height: 40px;" title="{$info['file_path']}"><a style="color:blue;" href="{$info['file_path']}" >{$info['file_path'] | subtext=20}</a></td>
+                                                <td style="line-height: 40px">{$info['ip']}</td>
+                                                <td style="line-height: 40px">{$info['draw_person']}</td>
+                                                <td style="line-height: 40px">{$info['hit_time'] | date="Y/m/d",###}</td>
+                                                <td style="line-height: 40px">{$info['audit_time']| date="Y/m/d",###}</td>
+                                                <!--<td style="line-height: 40px">{$info['lab_name']}</td>-->
+                                                <td style="line-height: 40px">
+                                                    <span data="{$info['id']}">
+                                                    {:authcheck('Home/Picture/do_pic_nosure','
+                                                    <button class="btn btn-success btn-xs normal"   style="border-radius: 13px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">正常</button>
+                                                    <button class="btn btn-danger btn-xs illegal"  style="border-radius: 13px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">违规</button>
+
+                                                    ','')}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                        <div class="showbox">
+                                            <img src="" alt="" class="aaaa">
+                                        </div>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    $('#hitip').val("<?=$hitip?>");
+    $('#hiturl').val("<?=$hiturl?>");
+    $('#hitdomain').val("<?=$hitdomain?>");
+    $('#time').val("<?=$time?>");
+    $('#audit_time').val("<?=$audit_time?>");
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    });
+    $(".table").on('click','.normal' ,function () {
+        $(this).parent().parent().parent().remove();
+//        $(this).parent().parent().attr({"disabled":"disabled"});
+
+        var data={};
+        data.id=$(this).parent().attr('data');
+        data.status='3';
+        console.log(data);
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_pic_nosure",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('审核成功');
+//                    window.location.reload();
+//                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+
+    });
+    $(".table").on('click','.illegal' ,function () {
+        $(this).parent().parent().parent().remove();
+//        $(this).parent().parent().attr({"disabled":"disabled"});
+
+        var data={};
+        data.id=$(this).parent().attr('data');
+        data.status='1';
+        console.log(data);
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_pic_nosure",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('审核成功');
+//                    window.location.reload();
+//                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+
+    });
+</script>
+<script>
+    function Zoom(imgbox, hoverbox, l, t, x, y, h_w, h_h, showbox) {
+        var moveX = x - l - (h_w / 2);
+        //鼠标区域距离
+        var moveY = y - t - (h_h / 2);
+        //鼠标区域距离
+        if (moveX < 0) {
+            moveX = 0
+        }
+        if (moveY < 0) {
+            moveY = 0
+        }
+        if (moveX > imgbox.width() - h_w) {
+            moveX = imgbox.width() - h_w
+        }
+        if (moveY > imgbox.height() - h_h) {
+            moveY = imgbox.height() - h_h
+        }
+        //判断鼠标使其不跑出图片框
+        var zoomX = showbox.width() / imgbox.width()
+        //求图片比例
+        var zoomY = showbox.height() / imgbox.height()
+
+        showbox.css({
+            left: -(moveX * zoomX),
+            top: -(moveY * zoomY)
+        })
+        hoverbox.css({
+            left: moveX,
+            top: moveY
+        })
+        //确定位置
+
+    }
+    //
+    function Zoomhover(imgbox, hoverbox, showbox) {
+        var l = imgbox.offset().left;
+        var t = imgbox.offset().top;
+        var w = hoverbox.width();
+        var h = hoverbox.height();
+        var time;
+        $(".probox img,.hoverbox").mouseover(function(e) {
+            var x = e.pageX;
+            var y = e.pageY;
+            $(".hoverbox,.showbox").show();
+            hoverbox.css("opacity", "0.3");
+            time = setTimeout(function() {
+                Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+            }, 1)
+        }).mousemove(function(e) {
+            var x = e.pageX;
+            var y = e.pageY;
+            time = setTimeout(function() {
+                Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+            }, 1)
+        }).mouseout(function() {
+            showbox.parent().hide();
+            hoverbox.hide();
+        })
+    }
+    $(function() {
+        Zoomhover($(".probox img"), $(".hoverbox"), $(".showbox img"));
+    });
+    $(".table tr td").mouseenter(function(){
+        var imgNew='<img src='+ $(this).find('.imgbox>.probox>img').attr('src') +' >'
+        $(".showbox").html($(imgNew))
+    }).mouseleave(function(){
+        $(".showbox").css('display','none')
+    });
+</script>

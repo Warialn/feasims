@@ -1,0 +1,90 @@
+<div class="app-container no-padding">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;margin-top: -25px;color: white;background-color: #004882">
+            <li>人工审核管理</li>
+            <li class="active" style="color: white">视频审核 — 初审</li>
+        </ol>
+        <div class="container-fluid" style="background: #004882">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card"  style="background-color: #004882">
+                            <div class="card-header " style="background-color: #033F70">
+                                <div class="card-title no-padding">
+                                    <form class="form-inline" action="" method="get" style="color: white">
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label>域名：</label>
+                                            <input type="text" class="form-control input-sm" name="hitdomain" id="hitdomain" style="width: 168px">
+                                        </div>
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label>图片URL：</label>
+                                            <input type="text" class="form-control input-sm" name="hiturl" id="hiturl" style="width: 168px">
+                                        </div>
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label>IP：</label>
+                                            <input type="text" class="form-control input-sm" name="hitip" id="hitip" style="width: 168px">
+                                        </div>
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label>检测日期：</label>
+                                            <input class="form-control date-range-picker input-sm" type="text" name="time" id="time" data-date-format="YYYY-MM-DD" style="width:220px"/>
+                                        </div>
+                                        <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        <span style="margin-left: 40px">未审核图片：{$num} 张</span>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!--<volist name="res" id="info">-->
+                                        <div class="col-md-3">
+                                            <!--<img src="{$info['ruleurl']}" alt="" style="height: 200px;width: 263px">-->
+                                            <video src=""></video>
+                                            <button class="btn btn-success btn-xs" style="margin-left: 60px">正常</button>
+                                            <button class="btn btn-danger btn-xs" style="margin-left: 5px">违规</button>
+                                            <button class="btn btn-info btn-xs" style="margin-left: 5px">不确定</button>
+                                        </div>
+                                    <!--</volist>-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#hitip').val("<?=$hitip?>");
+    $('#hiturl').val("<?=$hiturl?>");
+    $('#hitdomain').val("<?=$hitdomain?>");
+    $('#time').val("<?=$time?>");
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>
+
+
+

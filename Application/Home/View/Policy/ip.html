@@ -1,0 +1,429 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">IP地址库</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label>起始IP地址：</label>
+                                                <input type="text" name="begin_ip" id="begin_ip">
+                                            </li>
+                                            <li>
+                                                <label>终止IP地址：</label>
+                                                <input type="text" name="end_ip" id="end_ip">
+                                            </li>
+                                            <li>
+                                                <label>IP地址段类型：</label>
+                                                <select name="ip_type" id="ip_type">
+                                                    <option value="">请选择</option>
+                                                    <option value="0">网内</option>
+                                                    <option value="1">WAP</option>
+                                                    <option value="2">国内</option>
+                                                    <option value="3">其他</option>
+                                                </select>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {:authcheck('Home/Policy/ip_add','
+                                <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#modalDefault">
+                                    <span class="glyphicon glyphicon-plus "  style="margin-right: 5px;color: greenyellow"></span>添加
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Policy/upload_iplib','
+                                <a href="#" style="margin-right: 10px" id="leading_in"  data-toggle="modal"  data-target="#myModal_leading_in">
+                                    <span class="glyphicon glyphicon-log-in"  style="margin-right: 5px;color: #00BD8B"></span>导入
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Policy/export_iplib','
+                                <a href="#" style="margin-right: 10px" id="export_iplib">
+                                    <span class="glyphicon glyphicon-log-out" style="margin-right: 5px;color: #34C0E0" ></span>导出
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Policy/policy_issued','
+
+                                <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#myModal-add">
+                                    <span class="glyphicon glyphicon-save"  style="margin-right: 5px;color: #FFBE44"></span>下发
+                                </a>
+                                ','')}
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-ip" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-ip">下发</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" style="margin-left: 12px">
+                                                        <label style="margin-left: 12px">下发机房：</label>
+                                                        <select id="house_id" class="selectpicker bla bla bli" multiple data-live-search="true" style="height: 28px;width: 168px">
+                                                            <option value="">请选择</option>
+                                                            <volist name="rooms" id="room_info">
+                                                                <option value="{$room_info['lab_id']}">{$room_info['lab_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="lssued_ip">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">
+                                            <input type="checkbox" name="checkboxAll">
+                                        </th>
+                                        <th style="text-align:center">名称</th>
+                                        <th style="text-align:center">起始IP地址</th>
+                                        <th style="text-align:center">终止IP地址</th>
+                                        <th style="text-align:center">IP地址段类型</th>
+                                        <th style="text-align:center">描述</th>
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" name="checkbox">
+                                                </td>
+                                                <td>{$info['name']}</td>
+                                                <td>{$info['begin_ip']}</td>
+                                                <td>{$info['end_ip']}</td>
+                                                <td>{$info['ip_type']}</td>
+                                                <td>{$info['discription']}</td>
+                                                <td>
+                                                    <span  data="{$info['id']}">
+                                                    {:authcheck('Home/Policy/ip_del','
+                                                    <span class="glyphicon glyphicon-trash deleteDef" style="color: red;cursor: pointer" aria-hidden="true" data-toggle="modal"  data-target="#myModal-sc"></span>
+                                                    ','')}
+                                                </span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                                <!--  删除 模态框  -->
+                                <div class="modal fade" id="myModal-sc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>是否删除此数据？</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" id="id" >
+                                                <button type="button" class="btn btn-info" id="del">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 添加 -->
+                                <div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">添加</h4>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group">
+                                                        <label style="width: 88px;text-align: right">名称：</label>
+                                                        <input type="text" class="input-sm form-control" id="name_add" placeholder="请输入名称">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 88px;text-align: right">起始IP地址：</label>
+                                                        <input type="text" class="input-sm form-control" id="begin_ip_add" placeholder="请输入起始IP地址">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 88px;text-align: right">终止IP地址：</label>
+                                                        <input type="text" class="input-sm form-control" id="end_ip_add"  placeholder="请输入终止IP地址">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 88px;text-align: right">IP地址段类型：</label>
+                                                        <select id="ip_type_add" style="height: 30px;width: 168px;border: 1px solid #ccc;">
+                                                            <option value="">请选择IP地址段类型</option>
+                                                            <option value="0">网内</option>
+                                                            <option value="1">WAP</option>
+                                                            <option value="2">国内</option>
+                                                            <option value="3">其他</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 88px;text-align: right">描述：</label>
+                                                        <input type="text" class="input-sm form-control" id="discription" placeholder="请输入描述">
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="ip_add">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  导入 模态框  -->
+                                <div class="modal fade" id="myModal_leading_in" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-add" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-add">导入</h4>
+                                            </div>
+                                            <form id="form_upload" enctype="multipart/form-data" action="__URL__/upload_iplib" method="post">
+                                            <div class="modal-body" style="margin-bottom:20px;">
+                                                
+                                                   <div class="form-group" >
+                                                        <div class="col-sm-9" style="margin-bottom:10px;">
+                                                            <a href="__ROOT__/DownLoad/iplib.xlsx" style="color:#22a7f0;" >下载模板</a>
+                                                        </div>
+                                                    </div><br/>
+
+                                                    <div class="form-group">
+
+                                                        <div class="col-sm-9">
+                                                            <div class="widget-main">
+                                                                <input type="file" id="id-input-file-2" name="file"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="space-4"></div>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-info" value="确定">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                            </form>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <script src="__PUBLIC__/css/assets/js/tree/jquery.js"></script> -->
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script>
+
+    $('#begin_ip').val('<?=$begin_ip?>');
+    $('#end_ip').val('<?=$end_ip?>');
+    $('#ip_type').val('<?=$ip_type?>');
+    $(window).on('load', function () {
+        $('.selectpicker').selectpicker({
+            'selectedText': 'cat'
+        });
+    });
+    $(document).ready(function(){
+        $("#form_upload").ajaxForm({
+            success:function(data){
+                if (data.status === 'success') {
+                    alert("导入成功");
+                    window.location.reload();
+                } else if (data.status === 'failed') {
+                    alert(data.message);
+                }else{
+                    alert(data.info);
+                }
+            }
+        });
+    })
+    //全选
+    $("input[name='checkboxAll']").click(function(){
+        if($(this).is(":checked")){
+            $("input[name='checkbox']").prop("checked",true);
+        }else{
+            $("input[name='checkbox']").prop("checked",false);
+        }
+    });
+    //导出
+    var export_condition = {};
+    function package_file(filepath)
+    {
+        
+        $.get("__URL__/actionPackage", {filepath : filepath}, function(data){
+            if (data.status === true) {
+
+                var r = confirm('导出完毕，是否下载？');
+                if(r == true){
+                    window.location.href = "__PUBLIC__/Upload/" + data.filename;
+                }else{
+                   //closeAll(); 
+                }
+            } else {
+                confirm('导出失败', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            }
+        })
+    }
+    function result_export_ip()
+    {
+        
+        $.get("__URL__/export_iplib",export_condition , function(data){
+            if(data.status === 1) {
+                // $("#export_show").hide();
+                confirm('没有数据', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            } else if (data.status === 2) {
+                package_file(data.filename)
+            } else if (data.status === 3) {
+                export_condition.count = data.count;
+                export_condition.filename = data.filename;
+                result_export_ip();
+            }
+        });
+    }
+
+    $("#export_iplib").click(function(){
+        export_condition.begin_ip = $("#begin_ip").val();
+        export_condition.end_ip = $("#end_ip").val();
+        export_condition.ip_type = $("#ip_type").val();
+        export_condition.count = 0;
+        export_condition.filename = "";
+        result_export_ip();
+    });
+
+    $('#lssued_ip').click(function () {
+        var type = '4';
+        var id=$("#house_id").val();
+        if(id==null){
+            alert('请选择下发内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/policy_issued',
+                data: {'house_id':id,'type':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('下发成功');
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+            $("#myModal-add").modal('hide')
+        }
+    });
+    $("#ip_add").click(function () {
+        var data={};
+        data.name=$("#name_add").val();
+        data.begin_ip=$("#begin_ip_add").val();
+        data.end_ip=$("#end_ip_add").val();
+        data.ip_type=$("#ip_type_add").val();
+        data.discription=$("#discription").val();
+//        console.log(data)
+        $("#modalDefault").modal('hide');
+        var name=$("#name_add").val();
+        var begin_ip=$("#begin_ip_add").val();
+        var end_ip=$("#end_ip_add").val();
+        var ip_type=$("#ip_type_add").val();
+        if(name==''||begin_ip==''||end_ip==''||ip_type==''){
+            alert('请把信息填充完整')
+        }else{
+            $.ajax({
+                type: 'get',
+                url: '__URL__/ip_add',
+                data: data,
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('添加成功');
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+            $("input").val('')
+            $("select").val('')
+        }
+    })
+    //删除
+    $('.table').on('click','.deleteDef',function () {
+        var htm = $(this).parent('tr');
+        var id = $(this).parent().attr('data');
+        $("#id").val(id);
+    });
+    $('#del').click(function () {
+        $("#myModal-sc").modal('hide');
+        var id = $("#id").val();
+        $.ajax({
+            type: "get",
+            url: "__URL__/ip_del",
+            data: {'id':id},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+
+</script>
+
+
+
+
+

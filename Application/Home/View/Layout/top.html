@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>不良信息监测系统管理平台</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <!-- Fonts -->
+    <!--<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>-->
+    <!--<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>-->
+    <!-- CSS Libs -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/animate.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/bootstrap-switch.min.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/checkbox3.min.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/jquery.dataTables.min.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/dataTables.bootstrap.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/zyUpload.css">-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/style.css">
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/webuploader.css">-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/select2.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/css/tree/treeTable.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/css/jquery.gritter.css">-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/jquery.treemenu.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/daterangepicker-bs3.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/js/time/jedate.css">
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/themes/flat-blue.css">
+    <link rel="stylesheet" href="__PUBLIC__/js/bootstrap-select.css" type="text/css">
+    <!--<script type="text/javascript" src="__PUBLIC__/js/bootstrap-select.js"></script>-->
+
+</head>
+
+<body class="flat-blue">
+<div class="app-container">
+    <div class="row content-container">
+        <!--  top 导航  -->
+        <nav class="navbar navbar-default navbar-fixed-top navbar-top" style="    border-bottom: 1px solid #094360;">
+            <div class="container-fluid" style="width: 1289px">
+                <div class="navbar-header">
+                    <!--<button type="button" class="navbar-expand-toggle">-->
+                        <!--<i class="fa fa-bars icon"></i>-->
+                    <!--</button>-->
+                    <ol class="breadcrumb navbar-breadcrumb">
+                        <img src="__PUBLIC__/img/loginLogo.png" alt=""  style="margin-left: 20px">
+                        <li style="margin-left: 10px;color: white;font-family: SimSun">中国电信嘉兴分公司网站不良信息检测系统</li>
+                        <!--<li class="active">文本审核——初审</li>-->
+                    </ol>
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-th icon"></i>
+                    </button>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-times icon"></i>
+                    </button>
+
+                    <li class="dropdown">
+                        <a href="#">
+                            <span id="Timer" style="margin-right: 5px"></span>
+                            <span>不良信息总数：<span  id="numberIn">{:dataCount()}</span></span>
+                        </a>
+                    </li>
+                    <!-- <li class="dropdown">
+                        <a href="{:U('Text/text_first_trial')}">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        </a>
+                    </li> -->
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">欢迎您，{$_SESSION['username']}<span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu animated fadeInDown">
+                            <li class="profile-img">
+                                <!--<img src="../../img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">-->
+                            </li>
+                            <li>
+                                <div class="profile-info">
+                                    <h4 class="username">{$_SESSION['username']}</h4>
+                                    <a href="{:U('Login/logout')}" style="color:#333"
+                                       class="btn btn-default noborder"><i class="fa fa-sign-out"></i>退出</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--  left -->
+        <div class="side-menu sidebar-inverse">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="side-menu-container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            <div class="icon fa fa-paper-plane"></div>
+                            <div class="title"><span style="font-family: SimSun">网站不良信息检测系统</span></div>
+                        </a>
+                        <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-times icon"></i>
+                        </button>
+                    </div>
+                    <!--  left nav  -->
+                    <ul class="nav navbar-nav">
+                        <!--  文本审核 -->
+                        <if condition="authcheck('Home/Text/','1','')">
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-text">
+                                    <span class="icon fa fa-desktop"></span><span class="title">文本审核</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-text" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li>
+                                                {:authcheck('Home/Text/text_first_trial','
+                                                <a href="__APP__/Home/Text/text_first_trial">文本初审</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Text/text_re_trial','
+                                                <a href="__APP__/Home/Text/text_re_trial">文本复审</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Text/text_nosure','
+                                                <a href="__APP__/Home/Text/text_nosure">不确定文本</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Text/text_result','
+                                                <a href="__APP__/Home/Text/text_result">文本审核结果</a>
+                                                ','')}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </if>
+                        <!--  图片审核 -->
+                        <if condition="authcheck('Home/Picture/','1','')">
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-pic">
+                                    <span class="icon glyphicon glyphicon-picture"></span><span
+                                        class="title">图片审核</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-pic" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li>
+                                                {:authcheck('Home/Picture/pic_first_trial','
+                                                <a href="__APP__/Home/Picture/pic_first_trial">图片初审</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Picture/pic_re_trial','
+                                                <a href="__APP__/Home/Picture/pic_re_trial">图片复审</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Picture/pic_nosure','
+                                                <a href="__APP__/Home/Picture/pic_nosure">不确定图片</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Picture/pic_result','
+                                                <a href="__APP__/Home/Picture/pic_result">图片审核结果</a>
+                                                ','')}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </if>
+                        <!--  音频审核 -->
+                        <!--<li class="panel panel-default dropdown">-->
+                        <!--<a data-toggle="collapse" href="#dropdown-audio">-->
+                        <!--<span class="icon glyphicon glyphicon-music"></span><span class="title">音频审核</span>-->
+                        <!--</a>-->
+                        <!--&lt;!&ndash; Dropdown level 1 &ndash;&gt;-->
+                        <!--<div id="dropdown-audio" class="panel-collapse collapse">-->
+                        <!--<div class="panel-body">-->
+                        <!--<ul class="nav navbar-nav">-->
+
+                        <!--<li><a href="{:U('Audio/audio_first_trial')}">音频初审</a>-->
+                        <!--</li>-->
+                        <!--<li><a href="{:U('Audio/audio_re_trial')}">音频复审</a>-->
+                        <!--</li>-->
+                        <!--<li><a href="{:U('Audio/audio_nosure')}">不确定音频</a>-->
+                        <!--</li>-->
+                        <!--<li><a href="{:U('Audio/audio_result')}">音频审核结果</a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</li>-->
+                        <!--  视频审核 -->
+                        <!--<li class="panel panel-default dropdown">-->
+                        <!--<a data-toggle="collapse" href="#dropdown-video">-->
+                        <!--<span class="icon glyphicon glyphicon-facetime-video"></span><span class="title">视频审核</span>-->
+                        <!--</a>-->
+                        <!--&lt;!&ndash; Dropdown level 1 &ndash;&gt;-->
+                        <!--<div id="dropdown-video" class="panel-collapse collapse">-->
+                        <!--<div class="panel-body">-->
+                        <!--<ul class="nav navbar-nav">-->
+
+                        <!--<li><a href="{:U('Video/video_first_trial')}">视频初审</a>-->
+                        <!--</li>-->
+                        <!--<li><a href="{:U('Video/video_re_trial')}">视频复审</a>-->
+                        <!--</li>-->
+                        <!--<li><a href="{:U('Video/video_nosure')}">不确定视频</a>-->
+                        <!--</li>-->
+                        <!--<li><a href="{:U('Video/video_result')}">视频审核结果</a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</li>-->
+                        <!--  中标数据管理 -->
+                        <if condition="authcheck('Home/Data/','1','')">
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-bid">
+                                    <span class="icon fa fa fa-tachometer"></span><span class="title">中标数据管理</span>
+                                </a>
+                                <div id="dropdown-bid" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li>
+                                                {:authcheck('Home/Data/all','
+                                                <a href="__APP__/Home/Data/all">中标数据查询</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Data/domain_tree','
+                                                <a href="__APP__/Home/Data/domain_tree">按域名树展示</a>
+                                                ','')}
+                                            </li>
+                                            <!-- <li>
+                                                {:authcheck('Home/Data/lab_tree','
+                                                <a href="__APP__/Home/Data/lab_tree">按机房树展示</a>
+                                                ','')}
+                                            </li> -->
+                                            <li>
+                                                {:authcheck('Home/Data/ip_tree','
+                                                <a href="__APP__/Home/Data/ip_tree">按IP树展示</a>
+                                                ','')}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </if>
+                        <if condition="authcheck('Home/Report/','1','')">
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-form">
+                                    <span class="icon fa fa-file-text-o"></span><span class="title">统计报表管理</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-form" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li>
+                                                {:authcheck('Home/Report/record','
+                                                <a href="__APP__/Home/Report/record">中标数据汇总统计</a>
+                                                ','')}
+                                            </li>
+                                            <!--<li>-->
+                                                <!--{:authcheck('Home/Report/pro_time','-->
+                                                <!--<a href="__APP__/Home/Report/pro_time">审核工作量统计</a>-->
+                                                <!--','')}-->
+                                            <!--</li>-->
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </if>
+                        <!--  策略管理模块 -->
+                        <if condition="authcheck('Home/Policy/','1','')">
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-table">
+                                    <span class="icon fa fa-table"></span><span class="title">策略管理</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-table" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li>
+                                                {:authcheck('Home/Policy/black_list_url','
+                                                <a href="__APP__/Home/Policy/black_list_url">黑名单</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Policy/famous_list','
+                                                <a href="__APP__/Home/Policy/famous_list">知名网站</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Policy/ip','
+                                                <a href="__APP__/Home/Policy/ip">IP地址库</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Policy/miss_judge','
+                                                <a href="__APP__/Home/Policy/miss_judge">误判库</a>
+                                                ','')}
+                                            </li>
+                                            <!--<li>-->
+                                                <!--{:authcheck('Home/Policy/txt_pic','-->
+                                                <!--<a href="__APP__/Home/Policy/txt_pic">文本与图片混合策略</a>-->
+                                                <!--','')}-->
+                                            <!--</li>-->
+                                             <li>
+                                            {:authcheck('Home/Policy/text','
+                                            <a href="__APP__/Home/Policy/text">文本策略</a>
+                                            ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Policy/picture','
+                                                <a href="__APP__/Home/Policy/picture">图片策略</a>
+                                                ','')}
+                                            </li>
+                                            <!--<li>-->
+                                                <!--{:authcheck('Home/Policy/python_setting','-->
+                                                <!--<a href="__APP__/Home/Policy/python_setting">爬虫策略配置</a>-->
+                                                <!--','')}-->
+                                            <!--</li>-->
+                                            <li>
+                                                {:authcheck('Home/Policy/domain_setting','
+                                                <a href="__APP__/Home/Policy/domain_setting">定制域名表配置</a>
+                                                ','')}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </if>
+                        <!--  系统管理  -->
+                        <if condition="authcheck('Home/System/','1','')">
+
+                            <li class="panel panel-default dropdown">
+                                <a data-toggle="collapse" href="#dropdown-system">
+                                    <span class="icon glyphicon glyphicon-cog"></span><span class="title">系统管理</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-system" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            <li>
+                                                {:authcheck('Home/System/user','
+                                                <a href="__APP__/Home/System/user">用户管理</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/System/usergroup','
+                                                <a href="__APP__/Home/System/usergroup">用户组管理</a>
+                                                ','')}
+                                            </li>
+                                            <!--<li><a href="{:U('System/authorize')}">权限管理</a>-->
+                                            <!--</li>-->
+                                            <li>
+                                                {:authcheck('Home/System/log','
+                                                <a href="__APP__/Home/System/log">日志管理</a>
+                                                ','')}
+                                            </li>
+                                            <li>
+                                                {:authcheck('Home/Content/index','
+                                                <a href="__APP__/Home/Content/index">内容采集配置管理</a>
+                                                ','')}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </if>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div>
+        <!-- Javascript Libs -->
+        <script type="text/javascript" src="__PUBLIC__/lib/js/jquery.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/jquery.treemenu.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/bootstrap.min.js"></script>
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/Chart.min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/bootstrap-switch.min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/jquery.matchHeight-min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/jquery.dataTables.min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/dataTables.bootstrap.min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/select2.full.min.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/lib/js/ace/ace.js"></script>
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/ace/mode-html.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/ace/theme-github.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/datetimepicker.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/data.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/daterangepicker.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/moment.min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/js/datetimepicker/datetimepicker.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/js/datetimepicker/datetimepicker.min.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/moment.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/zyFile.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/jqueryrotate.js"></script>
+        <!-- <script type="text/javascript" src="__PUBLIC__/lib/js/zyUpload.js"></script> -->
+        <!-- <script type="text/javascript" src="__PUBLIC__/lib/js/index.js"></script> -->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/webuploader.min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/extend-webuploader.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/lib/js/highcharts.js"></script>
+        <!-- <script type="text/javascript" src="__PUBLIC__/js/fy/bootstrap-table.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/fy/bootstrap-table-zh-CN.min.js"></script> -->
+        <!-- <script type="text/javascript" src="__PUBLIC__/js/page/js/dataTables.bootstrap.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/page/js/dataTables.min.js"></script> -->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/jquery-ui.min.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/js/echart/echart/js/echarts.map.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/echart/echart/js/china.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/no-data-to-display.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/bootstrap-select.js"></script>
+        <!--<script type="text/javascript" src="__PUBLIC__/js/html5shiv.min.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/js/jquery.placeholder.js"></script>-->
+        <!--<script type="text/javascript" src="__PUBLIC__/js/json/echarts.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/js/json/zhejiang.js"></script>
+
+
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var maxTime = 1800; // seconds
+    var time = maxTime;
+    $('body').on('keydown mousemove mousedown', function(e){
+        time = maxTime; // reset
+    });
+    var intervalId = setInterval(function(){
+        time--;
+        if(time <= 0) {
+            ShowInvalidLoginMessage();
+            clearInterval(intervalId);
+        }
+    }, 1000)
+    function ShowInvalidLoginMessage(){
+        // 清除cookie
+        // 提示用户
+        // 该干嘛干嘛
+        window.location.href = '__APP__/Home/Login/logout';
+    }
+
+    setInterval(function(){
+        var mon, day, now, hour, min, ampm, time, str, tz, end, beg, sec;
+        mon = new Array("一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月",
+            "九月", "十月", "十一月", "十二月");
+        day = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+        now = new Date();
+        hour = now.getHours();
+        min = now.getMinutes();
+        sec = now.getSeconds();
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+        if (min < 10) {
+            min = "0" + min;
+        }
+        if (sec < 10) {
+            sec = "0" + sec;
+        }
+        $("#Timer").html(
+            now.getFullYear() + "年" + (now.getMonth() + 1) + "月" + now.getDate() + "日" + "  " + hour + ":" + min + ":" + sec
+        );
+        $.ajax({
+            url: '__APP__/Home/Index/count_data',
+            type: 'POST',
+            success:function(data){
+                console.log(data)
+                var divdom = document.getElementById('numberIn');
+                var divnum = divdom.innerText;
+                var lastnum = + data;
+                divdom.innerText = lastnum;
+            }
+        })
+    },1000);
+</script>
+
+

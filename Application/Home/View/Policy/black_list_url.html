@@ -1,0 +1,311 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">黑名单</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+
+                            <div class="card-body no-padding">
+                                <div role="tabpanel">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" id="myTab">
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#home">
+                                                黑名单URL
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a data-toggle="" href="__APP__/Home/Policy/black_list_ip">
+                                                黑名单IP
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="home" style="padding: 0">
+                                            <div class="formArea" style="background: #D1E8F0;height: 45px;width: 1246px;margin-bottom: 10px">
+                                                <form class="form-inline" action='' method="post">
+                                                    <ul>
+                                                        <li>
+                                                            <label>域名/URL：</label>
+                                                            <input type="text" name="domain" id="domain">
+                                                        </li>
+                                                        <li>
+                                                            <label>内容类型：</label>
+                                                            <select name="content_type" id="content_type">
+                                                                <option>请选择</option>
+                                                                <option value="1">涉黄</option>
+                                                                <option value="2">暴恐</option>
+                                                                <option value="3">政治</option>
+                                                            </select>
+                                                        </li>
+                                                        <!--<li style="width:358px;">-->
+                                                            <!--<label>封堵/解封堵策略标识：</label>-->
+                                                            <!--<select name="block_flag" id="block_flag">-->
+                                                                <!--<option>请选择</option>-->
+                                                                <!--<option value="0">封堵</option>-->
+                                                                <!--<option value="1">解封堵</option>-->
+                                                            <!--</select>-->
+                                                        <!--</li>-->
+                                                        <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                                    </ul>
+                                                </form>
+                                            </div>
+                                            <!--{:authcheck('Home/Policy/plug_blacklist','-->
+                                            <!--<a href="#" style="margin-right: 10px" id="plugging_url">-->
+                                                <!--<span class="glyphicon glyphicon-resize-small" style="margin-right: 5px;color: #FF8D4B"></span>封堵标识-->
+                                            <!--</a>-->
+                                            <!--<a href="#" style="margin-right: 10px"  id="releaseplug_url">-->
+                                                <!--<span class="glyphicon glyphicon-resize-full"  style="margin-right: 5px;color: #D9544F"></span>解封堵标识-->
+                                            <!--</a>-->
+
+                                            <!--','')}-->
+                                            {:authcheck('Home/Policy/export_black_url','
+                                            <a href="#" style="margin-right: 10px"  id="export_url">
+                                                <span class="glyphicon glyphicon-log-out" style="margin-right: 5px;color: #34C0E0"></span>导出
+                                            </a>
+                                            ','')}
+                                            <!--{:authcheck('Home/Policy/policy_issued','-->
+                                            <!--<a href="#" style="margin-right: 10px"  data-toggle="modal" data-target="#myModal-add">-->
+                                                <!--<span class="glyphicon glyphicon-save"  style="margin-right: 5px;color: #FFBE44"></span>下发-->
+                                            <!--</a>-->
+                                            <!--','')}-->
+                                            <!--  添加 模态框  -->
+                                            <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                                 aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-hidden="true">&times;
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel-sc">下发</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="form-inline">
+                                                                <div class="form-group" style="margin-left: 12px">
+                                                                    <label style="margin-left: 12px">下发机房：</label>
+                                                                    <select id="house_id" class="selectpicker bla bla bli" multiple data-live-search="true" style="height: 28px;width: 168px">
+                                                                        <option value="">请选择</option>
+                                                                        <volist name="rooms" id="room_info">
+                                                                            <option value="{$room_info['lab_id']}">{$room_info['lab_name']}</option>
+                                                                        </volist>
+                                                                    </select>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-info" id="lssued_url">确定</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal -->
+                                            </div>
+                                            <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                                <thead>
+                                                <tr style="background-color: #E8F1F6">
+                                                    <th style="text-align:center">
+                                                        <input type="checkbox" name="checkboxAll">
+                                                    </th>
+                                                    <th style="text-align:center">内容类型</th>
+                                                    <!--<th style="text-align:center">归属情况</th>-->
+                                                    <th style="text-align:center">机房名称</th>
+                                                    <th style="text-align:center">黑名单内的域名/URL</th>
+                                                    <!--<th style="text-align:center">封堵/解封堵策略标识</th>-->
+                                                    <th style="text-align:center">操作时间</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                     <volist name="url_res" id='url_info'>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="checkbox" name="checkbox" value="{$url_info['id']}">
+                                                            </td>
+                                                            <td>{$url_info['content_type']}</td>
+                                                            <!--<td>{$url_info['location']}</td>-->
+                                                            <td>{$url_info['lab_name']}</td>
+                                                            <td>{$url_info['control_url']}</td>
+                                                            <!--<td>{$url_info['block_flag']}</td>-->
+                                                            <td>{$url_info['affective_time'] | date="Y-m-d",###}</td>
+                                                        </tr>
+                                                    </volist>
+                                                    
+                                                </tbody>
+                                            </table>
+                                            <div class="dataTables_paginate paging_bootstrap pull-right">
+                                                <ul class="pagination">
+                                                    {$show}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#domain').val('<?=$domain?>');
+    $('#content_type').val('<?=$content_type?>');
+    $('#block_flag').val('<?=$block_flag?>');
+    $("input[name='checkboxAll']").click(function(){
+        //判断当前点击的复选框处于什么状态$(this).is(":checked") 返回的是布尔类型
+        if($(this).is(":checked")){
+            $("input[name='checkbox']").prop("checked",true);
+        }else{
+            $("input[name='checkbox']").prop("checked",false);
+        }
+    });
+    $(window).on('load', function () {
+        $('.selectpicker').selectpicker({
+            'selectedText': 'cat'
+        });
+    });
+    //URL封堵解封堵
+    $('#plugging_url').click(function () {
+        var id = [];
+        $("input[name='checkbox']:checked").each(function (i) {
+            id[i]=$(this).val();
+        })
+        var type = 'plugurl';
+        if(id==''){
+            alert('请选择封堵内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/plug_blacklist',
+                data: {'id':id,'type':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('封堵成功');
+                        $(":checked").attr('checked',false);
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+        }
+    });
+    $('#releaseplug_url').click(function () {
+        var id = [];
+        $("input[name='checkbox']:checked").each(function (i) {
+            id[i]=$(this).val();
+        })
+        var type = 'replugurl';
+        if(id==''){
+            alert('请选择解封堵内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/plug_blacklist',
+                data: {'id':id,'type':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('解封堵成功');
+                        $(":checked").attr('checked',false);
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+        }
+    });
+
+
+    //URL导出
+    var export_condition1 = {};
+
+    function package_file(filepath)
+    {
+        
+        $.get("__URL__/actionPackage", {filepath : filepath}, function(data){
+            if (data.status === true) {
+
+                var r = confirm('导出完毕，是否下载？');
+                if(r == true){
+                    window.location.href = "__PUBLIC__/Upload/" + data.filename;
+                }else{
+                   //closeAll(); 
+                }
+            } else {
+                confirm('导出失败', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            }
+        })
+    }
+
+    function result_export_url()
+    {
+        
+        $.post("__URL__/export_black_url",export_condition1 , function(data){
+            if(data.status === 1) {
+                // $("#export_show").hide();
+                confirm('没有数据', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            } else if (data.status === 2) {
+                package_file(data.filename)
+            } else if (data.status === 3) {
+                export_condition1.count = data.count;
+                export_condition1.filename = data.filename;
+                result_export_url();
+            }
+        });
+    }
+
+    $("#export_url").click(function(){
+        export_condition1.domain = $("#domain").val();
+        export_condition1.content_type = $("#content_type").val();
+        export_condition1.block_flag = $("#block_flag").val();
+        export_condition1.count = 0;
+        export_condition1.filename = "";
+        result_export_url();
+    });
+ 
+    //URL策略下发
+    $('#lssued_url').click(function () {
+        var type = '1';
+        var id=$("#house_id").val();
+        if(id==null){
+            alert('请选择下发内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/policy_issued',
+                data: {'house_id':id,'type':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('下发成功');
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+            $("#myModal-add").modal('hide')
+        }
+    });
+    
+    
+
+</script>

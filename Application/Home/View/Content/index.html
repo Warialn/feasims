@@ -1,0 +1,313 @@
+<div class="app-container no-padding">
+    <div class="row content-container" >
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>系统管理</li>
+            <li class="active" style="color: white">内容采集配置管理</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-body" style="min-height: 500px;margin-top: -20px">
+                                 {:authcheck('Home/Content/content_add','
+                                <a href="#" style="margin-right: 10px" data-toggle="modal"  data-target="#myModal-add">
+                                    <span class="glyphicon glyphicon-plus info_del_l deleteDef" aria-hidden="true" style="margin-right: 5px;color: greenyellow" ></span>添加
+                                </a>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">文件类型</th>
+                                        <th style="text-align:center">提取IP地址</th>
+                                        <th style="text-align:center">端口</th>
+                                        <th style="text-align:center">FTP用户名</th>
+                                        <th style="text-align:center">FTP口令</th>
+                                        <th style="text-align:center">FTP路径</th>
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td style="text-align:center">{$info['ftp_type']}</td>
+                                                <td style="text-align:center">{$info['ipaddress']}</td>
+                                                <td style="text-align:center">{$info['ftpport']}</td>
+                                                <td style="text-align:center">{$info['ftpuser']}</td>
+                                                <td style="text-align:center">{$info['ftppassword']}</td>
+                                                <td style="text-align:center">{$info['ftppath']}</td>
+                                                <td style="text-align:center"><span data-id="{$info['id']}">
+                                                    {:authcheck('Home/Content/Content_edit','
+                                                    <span title="编辑" class="glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="modal"  data-target="#myModal-edit"
+                                                          style="color: #1ABC9C;margin-right: 5px;margin-left: 5px;cursor: pointer" 
+                                                    ></span>
+                                                    ','')}
+                                                    {:authcheck('Home/Content/Content_del','
+                                                    
+                                                    <span class="glyphicon glyphicon-trash info_del_l deleteDef" aria-hidden="true"
+                                                          style="color: red;cursor: pointer;margin-left: 5px" data-toggle="modal" 
+                                                          data-target="#myModal-sc"></span>
+
+                                                    ','')}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="modal fade" id="myModal-sc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>是否删除此数据？</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="del">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-add" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-add">添加内容采集配置</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" style="margin-left: 12px">
+                                                        <label style="margin-left: 12px">文件类型：</label>
+                                                        <select name="" id="ftp_type" style="width: 168px;height: 30px">
+                                                            <option value="">请选择文件类型</option>
+                                                            <option value="1">文件还原ZIP包</option>
+                                                            <option value="2">XDR话单</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label>提取IP地址：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ipaddress"  placeholder="请填写提取IP地址">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label style="margin-left: 36px">端口：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftpport"  placeholder="请填写端口">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label>FTP用户名：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftpuser"  placeholder="请填写FTP用户名">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label style="margin-left: 12px">FTP口令：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftppassword"  placeholder="请填写FTP口令">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label style="margin-left: 12px">FTP路径：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftppath"  placeholder="请填写FTP路径">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="indexAdd">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  编辑 模态框  -->
+                                <div class="modal fade" id="myModal-edit" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-edit" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-edit">编辑</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" style="margin-left: 12px">
+                                                        <label style="margin-left: 12px">文件类型：</label>
+                                                        <select name="ftp_type_edit" id="ftp_type_edit" style="width: 168px;height: 30px">
+                                                            <option value="">请选择文件类型</option>
+                                                            <option value="1">文件还原ZIP包</option>
+                                                            <option value="2">XDR话单</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label>提取IP地址：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ipaddress_edit"  placeholder="请填写提取IP地址">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label style="margin-left: 36px">端口：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftpport_edit"  placeholder="请填写端口">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label>FTP用户名：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftpuser_edit"  placeholder="请填写FTP用户名">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label style="margin-left: 12px">FTP口令：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftppassword_edit"  placeholder="请填写FTP口令">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 12px">
+                                                        <label style="margin-left: 12px">FTP路径：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="ftppath_edit"  placeholder="请填写FTP路径">
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="indexEdit">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //删除
+    var del = '',htm = '';
+    $('.table').on('click','.deleteDef',function () {
+        del = $(this).parent().data('id');
+        htm = $(this).parent('tr');
+    });
+    $('#del').click(function () {
+        $("#myModal-sc").modal('hide');
+        $.ajax({
+            type: "get",
+            url: "__URL__/content_del",
+            data: {'id':del},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+//                    window.location.href('__URL__/illegal_info') 把他隐藏
+                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+
+    $(".table").on('click','.glyphicon-pencil',function () {
+        var row = $(this).parents('tr');
+        var ftp_type_edit = $("#ftp_type_edit[name='ftp_type_edit'] option");
+        ftp_type_edit.removeAttr('selected');
+        for(var i=0;i<ftp_type_edit.length;i++ ){
+            //alert(net_type[i].innerHTML);
+            if (ftp_type_edit[i].innerHTML== row.children('td:eq(0)').html().replace(/(^\s*)|(\s*$)/g,'')){
+                ftp_type_edit[i].setAttribute('selected', 'selected');
+                break;
+            }
+        }
+        var ipaddress_edit = $("#ipaddress_edit").val(row.children('td:eq(1)').html());
+        var ftpport_edit = $("#ftpport_edit").val(row.children('td:eq(2)').html());
+        var ftpuser_edit = $("#ftpuser_edit").val(row.children('td:eq(3)').html());
+        var ftppassword_edit = $("#ftppassword_edit").val(row.children('td:eq(4)').html());
+        var ftppath_edit = $("#ftppath_edit").val(row.children('td:eq(5)').html());
+//        console.log(b)
+    });
+
+    $('#indexAdd').click(function () {
+        var data={};
+        data.ftp_type=$("#ftp_type").val();
+        data.ipaddress=$("#ipaddress").val();
+        data.ftppath=$("#ftppath").val();
+        data.ftpuser=$("#ftpuser").val();
+        data.ftppassword=$("#ftppassword").val();
+        data.ftpport=$("#ftpport").val();
+        console.log(data)
+//        if(data=''){
+//            alert("请把信息填写全")
+//        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/content_add',
+                data: data,
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('添加成功');
+                    window.location.reload();
+                    }else{
+                        alert(data.info);
+                        window.location.reload();
+                    }
+                }
+            })
+            $("myModal-add").modal('hide')
+//        }
+    });
+    //编辑
+    var edit = '',htmEdit = '';
+    $('.table').on('click','.glyphicon-pencil',function () {
+        edit = $(this).parent().data('id');
+        htmEdit = $(this).parent('tr');
+    });
+    $('#indexEdit').click(function () {
+        var data={};
+        data.ftp_type=$("#ftp_type_edit").val();
+        data.ipaddress=$("#ipaddress_edit").val();
+        data.ftppath=$("#ftppath_edit").val();
+        data.ftpuser=$("#ftpuser_edit").val();
+        data.ftppassword=$("#ftppassword_edit").val();
+        data.ftpport=$("#ftpport_edit").val();
+        console.log(data)
+//        if(data=''){
+//            alert("请把信息填写全")
+//        }else {
+        $.ajax({
+            type: 'get',
+            url: '__URL__/content_edit',
+            data: {'data':data,'id':edit},
+            dataType: 'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('编辑成功');
+                    window.location.reload();
+                }else{
+                    alert(data.info);
+                        window.location.reload();
+                }
+            }
+        })
+        $("myModal-edit").modal('hide')
+//        }
+    });
+
+</script>

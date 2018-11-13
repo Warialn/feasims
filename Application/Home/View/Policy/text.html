@@ -1,0 +1,231 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">文本策略</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-body" >
+                                <form class="form-inline" style="margin-left: 25%;color: white">
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label style="width: 182px;text-align: right">文本页面中标阈值：</label>
+                                        <input type="number" value="" class="form-control input-sm" id="text_page_hit"
+                                            style="width: 300px"   placeholder="填写文本页面中标阈值(整数)">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="margin-bottom: 5px">
+                                        <label style="width: 182px;text-align: right">文本策略分类：</label>
+                                        <select name="" id="text_strategy_type" style="color: #999999;width: 300px;height: 30px">
+                                            <option value="">请选择文本策略分类</option>
+                                            <option value="1">淫秽色情</option>
+                                            <option value="2">违法信息</option>
+                                            <option value="3">钓鱼网站</option>
+                                            <option value="4">其他</option>
+                                        </select>
+                                    </div>
+                                </form>
+                                <div class="text-center" style="margin-top: 10px">
+                                    <button type="button" class="btn btn-info" style="margin-left: 10px" id="policy_issued">下发全部机房</button>
+                                </div>
+
+                                <table class="table table-bordered table-hover" style="margin-top: 20px;text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center">文本页面中标阈值</th>
+                                        <th style="text-align: center">文本策略分类</th>
+                                        <th style="text-align: center">下发成功机房个数</th>
+                                        <th style="text-align: center">下发失败机房个数</th>
+                                        <td  style="text-align: center">操作</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td>{$info['text_page_hit']}</td>
+                                                <td>{$info['text_type']}</td>
+                                                <td>  <a class="show_successInfo" data="{$info['success_lab']}" data3="{$info['commandid']}" style="color: blue;cursor: pointer" data-toggle="modal"
+                                            data-target="#myModal-cg">{$info['success']}</a></td>
+                                                <td>  <a class="show_failInfo" data2="{$info['fail_lab']}" style="color: blue;cursor: pointer" data-toggle="modal"
+                                            data-target="#myModal-sb">{$info['shibai']}</a></td>
+                                                <td><if condition="$info['handle'] eq 1"><a data4="{$info['commandid']}" data5= "{$info['fail_lab']}" href="#"
+                                               style="background-color:#1ABC9C;color: white;padding: 4px;" class="restart">重新下发</a>
+                                               <else/>---</if></td>
+                                            </tr>
+                                        </volist>
+
+                                    </tbody>
+                                </table>
+                                <!-- 下发成功 模态框（Modal） -->
+                                <div class="modal fade" id="myModal-cg" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">下发成功机房个数</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                                    <thead>
+                                                    <tr style="background-color: #E8F1F6">
+                                                        <th style='text-align:center;'>机房名称</th>
+                                                        <th style='text-align:center;'>设备名称</th>
+                                                        <th style='text-align:center;'>状态</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="info_td">
+                                                    
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 下发失败 模态框（Modal） -->
+                                <div class="modal fade" id="myModal-sb" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sb" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sb">下发失败机房个数</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                                    <thead>
+                                                    <tr style="background-color: #E8F1F6">
+                                                        <th style='text-align:center;'>机房名称</th>
+                                                        <th style='text-align:center;'>设备名称</th>
+                                                        <th style='text-align:center;'>状态</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="fail_td">
+                                                    
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#policy_issued").click(function () {
+        var data = {};
+        data.type = '6';
+        data.text_page_hit=$("#text_page_hit").val();
+        data.text_strategy_type=$("#text_strategy_type").val();
+        $.ajax({
+            type: "get",
+            url: "__URL__/policy_issued",
+            data:data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('保存成功');
+                    window.location.reload();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    })
+    $(".restart").click(function () {
+        var data = {};
+        data.type = '6';
+        data.fail_version = $(this).attr('data6');
+        data.commandid = $(this).attr('data4');
+        data.house_id = $(this).attr('data5');
+        data.text_page_hit=$(this).parents('tr').children('td:eq(0)').text();
+        var text_strategy_type = $(this).parents('tr').children('td:eq(1)').text();
+        if(text_strategy_type == '违法信息'){
+            data.text_strategy_type='2';
+        }else if(text_strategy_type == '淫秽色情'){
+            data.text_strategy_type='1';
+
+        }else if(text_strategy_type == '钓鱼网站'){
+            data.text_strategy_type='3';
+
+        }else{
+            data.text_strategy_type='4';
+        }
+        $.ajax({
+            type: "get",
+            url: "__URL__/policy_issued",
+            data:data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('保存成功');
+                    window.location.reload();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    })
+    $(".show_successInfo").click(function (){
+        var house_id = $(this).attr('data');
+        var commandid = $(this).attr('data3');
+        $.ajax({
+            type: "get",
+            url: "__URL__/text_device_info",
+            data: {'house_id':house_id,'type':1,'commandid':commandid},
+            dataType:'json',
+            success: function(data){
+                if (data) {
+                    $("#info_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        $("<tr><td style='text-align:center;'>" + value.lab_name + "</td><td style='text-align:center;'>" + value.device_id + "</td><td style='text-align:center;'>" + value.status +"</td></tr>").appendTo($("#info_td"));
+                    });
+                }
+            }
+        })
+    });
+    $(".show_failInfo").click(function (){
+        var house_id = $(this).attr('data2');
+        var commandid = $(this).attr('data3');
+        $.ajax({
+            type: "get",
+            url: "__URL__/text_device_info",
+            data: {'house_id':house_id,'type':2,'commandid':commandid},
+            dataType:'json',
+            success: function(data){
+                if (data) {
+                    $("#fail_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        $("<tr><td style='text-align:center;'>" + value.lab_name + "</td><td style='text-align:center;'>" + value.device_id + "</td><td style='text-align:center;'>" + value.status +"</td></tr>").appendTo($("#fail_td"));
+                    });
+                }
+            }
+        })
+    });
+
+</script>

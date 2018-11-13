@@ -1,0 +1,336 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">知名网站</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label>网站名称：</label>
+                                                <input type="text" name="popularweb_name" id="popularweb_name">
+                                            </li>
+                                            <li>
+                                                <label>域名：</label>
+                                                <input type="text" name="popularweb_url" id="popularweb_url">
+                                            </li>
+                                            <li>
+                                                <label>监测标识：</label>
+                                                <select name="monitor_flag" id="monitor_flag">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">开启</option>
+                                                    <option value="0">关闭</option>
+                                                </select>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {:authcheck('Home/Policy/famous_handle','
+                                <a href="#" style="margin-right: 10px" id="open">
+                                    <span class="glyphicon glyphicon-ok-circle" style="margin-right: 5px;color: #FF8D4B"></span>开启
+                                </a>
+                                <a href="#" style="margin-right: 10px" id="close">
+                                    <span class="glyphicon glyphicon-ban-circle"  style="margin-right: 5px;color: #D9544F"></span>关闭
+                                </a>
+
+                                ','')}
+                                {:authcheck('Home/Policy/famous_upload','
+                                <a href="#" style="margin-right: 10px" id="leading_in"  data-toggle="modal"  data-target="#myModal_leading_in">
+                                    <span class="glyphicon glyphicon-log-in"  style="margin-right: 5px;color: #00BD8B"></span>导入
+                                </a>
+
+                                ','')}
+                                {:authcheck('Home/Policy/famous_export','
+                                <a href="#" style="margin-right: 10px" id="export">
+                                    <span class="glyphicon glyphicon-log-out" style="margin-right: 5px;color: #34C0E0" ></span>导出
+                                </a>
+
+                                ','')}
+                                {:authcheck('Home/Policy/policy_issued','
+                                <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#myModal-add">
+                                    <span class="glyphicon glyphicon-save"  style="margin-right: 5px;color: #FFBE44"></span>下发
+                                </a>
+                                ','')}
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">
+                                            <input type="checkbox" name="checkboxAll">
+                                        </th>
+                                        <th style="text-align:center">网站名称</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">监测标识</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="checkbox" value="{$info['popularweb_id']}">
+                                            </td>
+                                            <td>{$info['popularweb_name']}</td>
+                                            <td>{$info['popularweb_url']}</td>
+                                            <td>{$info['monitor_flag']}</td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                                <!--  导入 模态框  -->
+                                <div class="modal fade" id="myModal_leading_in" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-add" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-add">导入</h4>
+                                            </div>
+                                            <form id="form_upload" enctype="multipart/form-data"  action="__URL__/famous_upload" method="post">
+                                            <div class="modal-body" style="margin-bottom: 20px;" >
+                                                
+                                                   <div class="form-group" >
+                                                        <div class="col-sm-9" style="margin-bottom:10px;">
+                                                            <a href="__ROOT__/DownLoad/famous_list.xlsx" style="color:#22a7f0;" >下载模板</a>
+                                                        </div>
+                                                    </div><br/>
+
+                                                    <div class="form-group">
+
+                                                        <div class="col-sm-9">
+                                                            <div class="widget-main">
+                                                                <input type="file" id="id-input-file-2" name="user_file"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="space-4"></div>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-info" value="确定">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                            </form>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  下发 模态框  -->
+                                <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">下发</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" style="margin-left: 12px">
+                                                        <label style="margin-left: 12px">下发机房：</label>
+                                                        <select id="house_id" class="selectpicker bla bla bli" multiple data-live-search="true" style="height: 28px;width: 168px">
+                                                            <option value="">请选择</option>
+                                                            <volist name="rooms" id="room_info">
+                                                                <option value="{$room_info['lab_id']}">{$room_info['lab_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="lssued">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script>
+    $(window).on('load', function () {
+        $('.selectpicker').selectpicker({
+            'selectedText': 'cat'
+        });
+    });
+    
+    //全选
+    $("input[name='checkboxAll']").click(function(){
+        if($(this).is(":checked")){
+            $("input[name='checkbox']").prop("checked",true);
+        }else{
+            $("input[name='checkbox']").prop("checked",false);
+        }
+    });
+
+    $('#open').click(function () {
+        var id = [];
+        var type = '1';
+        $("input[name='checkbox']:checked").each(function (i) {
+            id[i]=$(this).val();
+        })
+        if(id==''){
+            alert('请选择开启内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/famous_handle',
+                data: {'id':id,'monitor_flag':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('操作成功');
+                        $(":checked").attr('checked',false);
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+        }
+    });
+    $('#close').click(function () {
+        var id = [];
+        var type = '0';
+        $("input[name='checkbox']:checked").each(function (i) {
+            id[i]=$(this).val();
+        })
+        if(id==''){
+            alert('请选择关闭内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/famous_handle',
+                data: {'id':id,'monitor_flag':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('操作成功');
+                        $(":checked").attr('checked',false);
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+        }
+    });
+    //导出
+    var export_condition = {};
+    function package_file(filepath)
+    {
+        
+        $.get("__URL__/actionPackage", {filepath : filepath}, function(data){
+            if (data.status === true) {
+
+                var r = confirm('导出完毕，是否下载？');
+                if(r == true){
+                    window.location.href = "__PUBLIC__/Upload/" + data.filename;
+                }else{
+                   //closeAll(); 
+                }
+            } else {
+                confirm('导出失败', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            }
+        })
+    }
+    function result_export()
+    {
+        
+        $.post("__URL__/famous_export",export_condition , function(data){
+            if(data.status === 1) {
+                // $("#export_show").hide();
+                confirm('没有数据', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            } else if (data.status === 2) {
+                package_file(data.filename)
+            } else if (data.status === 3) {
+                export_condition.count = data.count;
+                export_condition.filename = data.filename;
+                result_export();
+            }
+        });
+    }
+
+    $("#export").click(function(){
+        export_condition.popularweb_name = $("#popularweb_name").val();
+        export_condition.popularweb_url = $("#popularweb_url").val();
+        export_condition.monitor_flag = $("#monitor_flag").val();
+        export_condition.count = 0;
+        export_condition.filename = "";
+        result_export();
+    });
+    $('#lssued').click(function () {
+//        var id = [];
+        var type = '3';
+        var id=$("#house_id").val();
+        if(id ==null){
+            alert("请选择下发机房")
+        }else{
+            $.ajax({
+                type: 'get',
+                url: '__URL__/policy_issued',
+                data: {'house_id':id,'type':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('下发成功');
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            });
+            $("#myModal-add").modal('hide')
+        }
+    });
+    $(document).ready(function(){
+        $("#form_upload").ajaxForm({
+            success:function(data){
+                if (data.status === 'success') {
+                    alert("导入成功");
+                    window.location.reload();
+                } else if (data.status === 'failed') {
+                    alert(data.message);
+                }else{
+                    alert(data.info);
+                }
+            }
+        });
+    })
+
+</script>
+
+
+
+
+

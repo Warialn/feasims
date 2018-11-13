@@ -1,0 +1,561 @@
+<style>
+    .imgbox {
+        position:relative;
+    }
+    .probox img {
+        /*width:100px;*/
+        height:45px;
+        vertical-align:top;
+        /*text-align: center;*/
+    }
+    .showbox {
+        display:none;
+        position:fixed;
+        left:300px;
+        top:270px;
+        width:400px;
+        height:300px;
+        overflow:hidden;
+    }
+    .showbox img {
+        position:fixed;
+        height:300px;
+        width:300px;
+        cursor: pointer;
+    }
+    .hoverbox {
+        display:none;
+        position:absolute;
+        top:0;
+        height:45px;
+        width:100px;
+        cursor:move;
+        z-index:10;
+    }
+
+</style>
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>人工审核管理</li>
+            <li class="active" style="color: white">图片审核结果</li>
+        </ol>
+            <div class="container-fluid">
+                <div class="side-body" style="padding-top: 0">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="card"  >
+                                <div class="card-header ">
+                                    <div class="formArea">
+                                        <form class="form-inline" action='' method="get">
+                                            <ul>
+                                            <li>
+                                                <label style="margin-left: 48px">域名：</label>
+                                                <input type="text" name="hitdomain" id="hitdomain" >
+                                            </li>
+                                            <li>
+                                                <label>图片URL：</label>
+                                                <input type="text" name="hiturl" id="hiturl">
+                                            </li>
+                                            <li>
+                                                <label>检出IP：</label>
+                                                <input type="text"  name="hitip" id="hitip">
+                                            </li>
+                                            <li>
+                                                <label>首次检出日期：</label>
+                                                <input class="date-range-picker" type="text" name="time" id="time" data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <li>
+                                                <label>审核日期：</label>
+                                                <input class="date-range-picker" type="text" name="audit_time" id="audit_time" data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                        </form>
+                                    </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="hChart">
+                                    <div class="chartUl">
+                                        <p>按审核状态统计</p>
+                                        <div id="container_a"></div>
+                                    </div>
+                                    <!--<div class="chartUl">-->
+                                        <!--<p>按机房统计</p>-->
+                                        <!--<div id="container_c"></div>-->
+                                    <!--</div>-->
+                                    <div class="chartUl">
+                                        <p>中标趋势（近七天）</p>
+                                        <div id="container_e"></div>
+                                    </div>
+                                </div>
+                                <table class="table table-hover table-bordered" style="text-align: center;background-color: #F9F9F9;">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">图片快照</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">URL</th>
+                                        <th style="text-align:center">IP</th>
+                                        <th style="text-align:center">审核结果</th>
+                                        <th style="text-align:center">访问量</th>
+                                        <th style="text-align:center">内容类型</th>
+                                        <th style="text-align:center">审核人</th>
+                                        <th style="text-align:center">首次检出日期</th>
+                                        <th style="text-align:center">审核时间</th>
+                                        <!--<th style="text-align:center">机房名称</th>-->
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td style="position: relative">
+                                                    <div class="imgbox">
+                                                        <div class="probox">
+                                                            <img src="{$info['file_path']}" alt="">
+                                                            <div class="hoverbox"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td  style="line-height: 40px"><a style="color:blue;" href="{$info['domain']}" >{$info['domain']}</a></td>
+                                                <td style="line-height: 40px;" title="{$info['file_path']}"><a style="color:blue;" href="{$info['file_path']}" >{$info['file_path'] | subtext=20}</a></td>
+                                                <td style="line-height: 40px">{$info['ip']}</td>
+                                                <td style="line-height: 40px">{$info.audit_status}</td>
+                                                <td style="line-height: 40px">{$info.hit_data_num}</td>
+                                                <td style="line-height: 40px">{$info['content_type']}</td>
+                                                <td style="line-height: 40px">{$info['draw_person']}</td>
+                                                <td style="line-height: 40px">{$info['hit_time'] | date="Y/m/d",###}</td>
+                                                <td style="line-height: 40px">{$info['audit_time']| date="Y/m/d",###}</td>
+                                                <!--<td style="line-height: 40px">{$info['lab_name']}</td>-->
+                                                <td style="text-align: left;line-height: 40px">
+                                                    <span  data="{$info['id']}">
+                                                    <if condition="$info['is_ip'] eq '1'">
+                                                        {:authcheck('Home/Picture/do_pic_result','
+                                                        <button class="btn btn-default btn-xs ip_1 glyphicon glyphicon-plus" style="border-radius: 13px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">IP黑名单</button>
+                                                    ','')}
+                                                        <elseif condition="$info['is_ip'] eq '0'"/>
+                                                        {:authcheck('Home/Picture/do_pic_result','
+                                                        <button class="btn btn-success btn-xs ip glyphicon glyphicon-plus"  style="border-radius: 13px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">IP黑名单</button>
+                                                    ','')}
+                                                        <else/> 
+                                                    </if>
+                                                    <if condition="$info['is_url'] eq '1'">
+                                                        {:authcheck('Home/Picture/do_pic_result','
+                                                        <button class="btn btn-default btn-xs url_1 glyphicon glyphicon-plus" style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">URL黑名单</button>
+                                                    ','')}
+                                                        <elseif condition="$info['is_url'] eq '0'"/>
+                                                        {:authcheck('Home/Picture/do_pic_result','
+                                                        <button class="btn btn-danger btn-xs url glyphicon glyphicon-plus"  style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">URL黑名单</button>
+                                                    ','')}
+                                                        <else/> 
+                                                    </if>
+                                                    <if condition="$info['is_miss'] eq '1'">
+                                                        {:authcheck('Home/Picture/do_pic_result','
+                                                        <button class="btn btn-default btn-xs miss_judge_1 glyphicon glyphicon-plus" style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">误判库</button>
+                                                    ','')}
+                                                        <elseif condition="$info['is_miss'] eq '0'"/>
+                                                        {:authcheck('Home/Picture/do_pic_result','
+                                                        <button class="btn btn-info btn-xs miss_judge glyphicon glyphicon-plus" style="border-radius: 13px;margin-left: 5px;margin-top: 0;margin-bottom: 0px;padding: 0 10px">误判库</button>
+                                                    ','')}
+                                                    <else/>
+                                                    </if>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                    <div class="showbox">
+                                        <img src="" alt="" class="aaaa">
+                                    </div>
+                                    </tbody>
+                                </table>
+                                <!--<div class="tableimg" style="display: none;position: absolute;top:400px;left: 100px">-->
+                                    <!--<img src="{$info['file_path']}" alt="">-->
+                                <!--</div>-->
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#hitip').val("<?=$hitip?>");
+    $('#hiturl').val("<?=$hiturl?>");
+    $('#hitdomain').val("<?=$hitdomain?>");
+    $('#time').val("<?=$time?>");
+    $('#audit_time').val("<?=$audit_time?>");
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>
+<script>
+    $(function () {
+        $('#container_a').highcharts({
+            chart: {
+                type: 'column',
+                backgroundColor: 'rgba(0,0,0,0.3)'
+            },
+            credits: {
+                enabled: false
+            },
+            colors:[
+                '#E4D354',
+                '#F45B5B',
+                '#90ED7D',
+                '#F7A35C'
+            ],
+            title: {
+                text: null
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color:'#fff'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: null
+                },
+                gridLineColor: '#084669',
+                gridLineDashStyle: 'longdash',
+                lineColor: '#fff',
+                lineWidth: 1,
+                color:'#fff',
+                labels: {
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color:'#fff'
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '<b>{point.y} 个</b>'
+            },
+            plotOptions: {
+                column: {
+                    colorByPoint:true
+                },
+                series: {
+                    borderColor: 'rgba(0,0,0)',
+                    borderRadius: 5
+                }
+            },
+            series: [{
+                data: [{$c_res}]
+
+
+            }]
+        });
+    });
+    $(function () {
+        $('#container_c').highcharts({
+            chart: {
+                backgroundColor: 'rgba(0,0,0,0.3)',
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: null
+            },
+            tooltip: {
+                pointFormat: '<b>{point.y} 个</b>'
+            },
+            plotOptions: {
+                pie: {
+                    size:170,
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color:'white'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                data: [
+                    {$l_res}
+                ]
+            }]
+        });
+    });
+    $('#container_e').highcharts({
+        chart: {
+            zoomType: 'x',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+        },
+        colors:[
+            '#FFE73A',
+            '#32d2c9'
+        ],
+        legend: {
+            enabled: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: '%m-%d',
+                week: '%m-%d',
+                month: '%Y-%m',
+                year: '%Y'
+            },
+            labels: {
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color:'#fff'
+
+                }
+            }
+        },
+        tooltip: {
+            dateTimeLabelFormats: {
+                millisecond: '%H:%M:%S.%L',
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%H:%M',
+                day: '%Y-%m-%d',
+                week: '%m-%d',
+                month: '%Y-%m',
+                year: '%Y'
+            }
+        },
+        yAxis: {
+            title: {
+                text: null
+            },
+            gridLineColor: '#084669',
+            gridLineDashStyle: 'longdash',
+            lineColor: '#CCD6EB',
+            lineWidth: 1,
+            labels: {
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color:'#fff'
+
+                }
+            }
+        },
+        series:[
+            {
+                name:'文件个数',
+                data:[
+                    {$three_res}
+
+                ]
+            }
+        ]
+    });
+
+
+</script>
+<script>
+    function Zoom(imgbox, hoverbox, l, t, x, y, h_w, h_h, showbox) {
+        var moveX = x - l - (h_w / 2);
+        //鼠标区域距离
+        var moveY = y - t - (h_h / 2);
+        //鼠标区域距离
+        if (moveX < 0) {
+            moveX = 0
+        }
+        if (moveY < 0) {
+            moveY = 0
+        }
+        if (moveX > imgbox.width() - h_w) {
+            moveX = imgbox.width() - h_w
+        }
+        if (moveY > imgbox.height() - h_h) {
+            moveY = imgbox.height() - h_h
+        }
+        //判断鼠标使其不跑出图片框
+        var zoomX = showbox.width() / imgbox.width()
+        //求图片比例
+        var zoomY = showbox.height() / imgbox.height()
+
+        showbox.css({
+            left: -(moveX * zoomX),
+            top: -(moveY * zoomY)
+        })
+        hoverbox.css({
+            left: moveX,
+            top: moveY
+        })
+        //确定位置
+
+    }
+//
+    function Zoomhover(imgbox, hoverbox, showbox) {
+        var l = imgbox.offset().left;
+        var t = imgbox.offset().top;
+        var w = hoverbox.width();
+        var h = hoverbox.height();
+        var time;
+        $(".probox img,.hoverbox").mouseover(function(e) {
+            var x = e.pageX;
+            var y = e.pageY;
+            $(".hoverbox,.showbox").show();
+            hoverbox.css("opacity", "0.3");
+            time = setTimeout(function() {
+                Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+            }, 1)
+        }).mousemove(function(e) {
+            var x = e.pageX;
+            var y = e.pageY;
+            time = setTimeout(function() {
+                Zoom(imgbox, hoverbox, l, t, x, y, w, h, showbox)
+            }, 1)
+        }).mouseout(function() {
+            showbox.parent().hide();
+            hoverbox.hide();
+        })
+    }
+    $(function() {
+        Zoomhover($(".probox img"), $(".hoverbox"), $(".showbox img"));
+    });
+    $(".table tr td").mouseenter(function(){
+        var imgNew='<img src='+ $(this).find('.imgbox>.probox>img').attr('src') +' >'
+        $(".showbox").html($(imgNew))
+    }).mouseleave(function(){
+        $(".showbox").css('display','none')
+    });
+</script>
+<script>
+    $(".table").on('click','.ip' ,function () {
+        var data={};
+        data.id=$(this).parent().attr('data');
+        $(this).css('cursor','not-allowed');
+        $(this).css('border','#EDEDED');
+        $(this).css('color','#333333');
+        $(this).css('backgroundColor','#F0F0F0');
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_result_ip",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//               if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+    });
+    $(".table").on('click','.url' ,function () {
+        var data={};
+        data.id=$(this).parent().attr('data');
+        $(this).css('cursor','not-allowed');
+        $(this).css('border','#EDEDED');
+        $(this).css('color','#333333');
+        $(this).css('backgroundColor','#F0F0F0');
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_result_url",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//               if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+    });
+    $(".table").on('click','.miss_judge' ,function () {
+        var data={};
+        data.id=$(this).parent().attr('data');
+        $(this).css('cursor','not-allowed');
+        $(this).css('border','#EDEDED');
+        $(this).css('color','#333333');
+        $(this).css('backgroundColor','#F0F0F0');
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_result_missjudge",
+            data: data,
+            dataType:'json',
+            success:function (data) {
+//               if(data.status == 'success'){
+//                   window.location.reload();
+////                    htm.remove();
+//               }else{
+//                   alert(data.info);
+//               }
+            }
+        })
+    });
+    $(".table .ip_1").hover(function(){
+        $(".ip_1").css('cursor','not-allowed');
+    },function(){
+
+    });
+    $(".table .url_1").hover(function(){
+        $(".url_1").css('cursor','not-allowed');
+    },function(){
+
+    });
+    $(".table .miss_judge_1").hover(function(){
+        $(".miss_judge_1").css('cursor','not-allowed');
+    },function(){
+
+    });
+</script>
+
+
+

@@ -1,0 +1,284 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">误判库</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 36px">IP：</label>
+                                                <input type="text" name="ip" id="ip">
+                                            </li>
+                                            <li>
+                                                <label>域名：</label>
+                                                <input type="text" name="domain" id="domain">
+                                            </li>
+                                            <li>
+                                                <label>URL：</label>
+                                                <input type="text" name="url" id="url">
+                                            </li>
+                                            <li>
+                                            <label>监测标识：</label>
+                                            <select name="monitor_flag" id="monitor_flag">
+                                                <option value="">请选择</option>
+                                                <option value="1">开启</option>
+                                                <option value="0">关闭</option>
+                                            </select>
+                                        </li>
+
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {:authcheck('Home/Policy/missjudge_handle','
+                                <a href="#" style="margin-right: 10px" id="open">
+                                    <span class="glyphicon glyphicon-ok-circle" style="margin-right: 5px;color: #FF8D4B"></span>开启
+                                </a>
+                                <a href="#" style="margin-right: 10px" id="close">
+                                    <span class="glyphicon glyphicon-ban-circle"  style="margin-right: 5px;color: #D9544F"></span>关闭
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Policy/export_missjudge','
+                                <a href="#" style="margin-right: 10px" id="export">
+                                    <span class="glyphicon glyphicon-log-out" style="margin-right: 5px;color: #34C0E0" ></span>导出
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Policy/policy_issued','
+                                <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#myModal-add">
+                                    <span class="glyphicon glyphicon-save"  style="margin-right: 5px;color: #FFBE44"></span>下发
+                                </a>
+                                ','')}
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">下发</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" style="margin-left: 12px">
+                                                        <label style="margin-left: 12px">下发机房：</label>
+                                                        <select id="house_id" class="selectpicker bla bla bli" multiple data-live-search="true" style="height: 28px;width: 168px">
+                                                            <option value="">请选择</option>
+                                                            <volist name="rooms" id="room_info">
+                                                                <option value="{$room_info['lab_id']}">{$room_info['lab_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="lssued">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">
+                                            <input type="checkbox" name="checkboxAll">
+                                        </th>
+                                        <th style="text-align:center">IP</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">URL</th>
+                                        <th style="text-align:center">监测标识</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name='res' id="info">
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" name="checkbox" value="{$info['id']}">
+                                                </td>
+                                                <td>{$info['ip']}</td>
+                                                <td>{$info['domain']}</td>
+                                                <td>{$info['url']}</td>
+                                                <td>{$info['monitor_flag']}</td>
+                                            </tr>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(window).on('load', function () {
+        $('.selectpicker').selectpicker({
+            'selectedText': 'cat'
+        });
+    });
+    $('#ip').val("<?=$ip?>");
+    $('#domain').val('<?=$domain?>');
+    $('#url').val('<?=$url?>');
+    $('#monitor_flag').val('<?=$monitor_flag?>');
+    //全选
+    $("input[name='checkboxAll']").click(function(){
+        if($(this).is(":checked")){
+            $("input[name='checkbox']").prop("checked",true);
+        }else{
+            $("input[name='checkbox']").prop("checked",false);
+        }
+    });
+    $('#open').click(function () {
+        var id = [];
+        var type = '1';
+        $("input[name='checkbox']:checked").each(function (i) {
+            id[i]=$(this).val();
+        })
+        if(id==''){
+            alert('请选择开启内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/missjudge_handle',
+                data: {'id':id,'monitor_flag':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('操作成功');
+                        $(":checked").attr('checked',false);
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+        }
+    });
+
+
+    $('#close').click(function () {
+        var id = [];
+        var type = '0';
+        $("input[name='checkbox']:checked").each(function (i) {
+            id[i]=$(this).val();
+        })
+        if(id==''){
+            alert('请选择关闭内容')
+        }else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/missjudge_handle',
+                data: {'id':id,'monitor_flag':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('操作成功');
+                        $(":checked").attr('checked',false);
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+        }
+    });
+    //导出
+    var export_condition = {};
+    function package_file(filepath)
+    {
+        
+        $.get("__URL__/actionPackage", {filepath : filepath}, function(data){
+            if (data.status === true) {
+
+                var r = confirm('导出完毕，是否下载？');
+                if(r == true){
+                    window.location.href = "__PUBLIC__/Upload/" + data.filename;
+                }else{
+                   //closeAll(); 
+                }
+            } else {
+                confirm('导出失败', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            }
+        })
+    }
+    function result_export()
+    {
+        
+        $.post("__URL__/export_missjudge",export_condition , function(data){
+            if(data.status === 1) {
+                // $("#export_show").hide();
+                confirm('没有数据', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            } else if (data.status === 2) {
+                package_file(data.filename)
+            } else if (data.status === 3) {
+                export_condition.count = data.count;
+                export_condition.filename = data.filename;
+                result_export();
+            }
+        });
+    }
+
+    $("#export").click(function(){
+        export_condition.ip = $("#ip").val();
+        export_condition.dmian = $("#domain").val();
+        export_condition.url = $("#url").val();
+        export_condition.monitor_flag = $("#monitor_flag").val();
+        export_condition.count = 0;
+        export_condition.filename = "";
+        result_export();
+    });
+    $('#lssued').click(function () {
+        var id=$("#house_id").val();
+        var type = '12';
+        if(id ==null){
+            alert("请选择下发机房")
+        }else{
+            $.ajax({
+                type: 'get',
+                url: '__URL__/policy_issued',
+                data: {'house_id':id,'type':type},
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('添加成功');
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            });
+            $("#myModal-add").modal('hide')
+        }
+    });
+</script>
+
+
+
+

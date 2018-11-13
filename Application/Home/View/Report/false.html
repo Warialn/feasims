@@ -1,0 +1,327 @@
+<div class="app-container">
+    <div class="row content-container">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-expand-toggle">
+                        <i class="fa fa-bars icon"></i>
+                    </button>
+                    <ol class="breadcrumb navbar-breadcrumb">
+                        <li>统计报表管理</li>
+                        <!--<li class="active">中标记录统计表</li>-->
+                    </ol>
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-th icon"></i>
+                    </button>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-times icon"></i>
+                    </button>
+                    <li class="dropdown">
+                        <a href="{:U('Index/index')}">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-comments-o"></i></a>
+                        <ul class="dropdown-menu animated fadeInDown">
+                            <li class="title">
+                                Notification <span class="badge pull-right">0</span>
+                            </li>
+                            <li class="message">
+                                No new notification
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown danger">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
+                        <ul class="dropdown-menu danger  animated fadeInDown">
+                            <li class="title">
+                                Notification <span class="badge pull-right">4</span>
+                            </li>
+                            <li>
+                                <ul class="list-group notifications">
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i>
+                                            new registration
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge success">1</span> <i class="fa fa-check icon"></i> new
+                                            orders
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge danger">2</span> <i class="fa fa-comments icon"></i>
+                                            customers messages
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item message">
+                                            view all
+                                        </li>
+                                    </a>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Emily
+                            Hart <span class="caret"></span></a>
+                        <ul class="dropdown-menu animated fadeInDown">
+                            <li class="profile-img">
+                                <!--<img src="../../img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">-->
+                            </li>
+                            <li>
+                                <div class="profile-info">
+                                    <h4 class="username">Emily Hart</h4>
+                                    <p>emily_hart@email.com</p>
+                                    <div class="btn-group margin-bottom-2x" role="group">
+                                        <button type="button" class="btn btn-default"><i class="fa fa-user"></i> Profile
+                                        </button>
+                                        <button type="button" class="btn btn-default"><i class="fa fa-sign-out"></i>
+                                            Logout
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                        <a href="{:U('Report/record')}">
+                            <div class="card red summary-inline" style="height: 105px">
+                                <div class="card-body">
+                                    <!--<i class="icon fa fa-inbox fa-4x"></i>-->
+                                    <div class="content">
+                                        <p style="font-size: 22px">中标数据统计表</p>
+                                        <div class="sub-title">
+                                            <span>总数：100</span>
+                                            <span>文字：1</span>
+                                            <span>图片：4</span>
+                                            <span>视频：9</span>
+                                        </div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                        <a href="{:U('Report/realm')}">
+                            <div class="card yellow summary-inline" style="height: 105px">
+                                <div class="card-body">
+                                    <!--<i class="icon fa fa-comments fa-4x"></i>-->
+                                    <div class="content">
+                                        <p style="font-size: 22px">中标域名统计表</p>
+                                        <div class="sub-title">
+                                            <span>总数：100</span>
+                                            <span>知名网站：3</span>
+                                            <span>非知名网站：3</span>
+                                        </div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                        <a href="{:U('Report/IP')}">
+                            <div class="card blue summary-inline" style="height: 105px">
+                                <div class="card-body">
+                                    <!--<i class="icon fa fa-share-alt fa-4x"></i>-->
+                                    <div class="content">
+                                        <p style="font-size: 22px">中标IP统计表</p>
+                                        <div class="sub-title">
+                                            <span>总IP：100</span>
+                                            <span>网内：3</span>
+                                            <span>网外：3</span>
+                                            <span>国内：3</span>
+                                            <span>国外：3</span>
+                                            <span>其他：3</span>
+                                        </div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                        <a href="{:U('Report/false')}">
+                            <div class="card green summary-inline" style="height: 105px">
+                                <div class="card-body">
+                                    <!--<i class="icon fa fa-tags fa-4x"></i>-->
+                                    <div class="content">
+                                        <p style="font-size: 22px">误判率统计表</p>
+
+                                        <div class="sub-title">
+                                            <span>审核总数：100</span>
+                                            <span>正常：40</span>
+                                            <span>违规：22</span>
+                                            <span>误判率：10%</span>
+                                        </div>
+                                    </div>
+                                    <div class="clear-both"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="card  no-margin-bottom">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title">
+                                <p>误判率统计表</p>
+                            </div>
+                            <!-- 中标记录统计表 查询  -->
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="exampleSelect-e">机房ID：</label>
+                                    <select id="exampleSelect-e" style="width: 100px">
+                                        <option>请选择</option>
+                                        <option>机房1</option>
+                                        <option>机房2</option>
+                                        <option>机房3</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-left: 10px">
+                                    <label for="exampleTime-a">开始时间：</label>
+                                    <input type="datetime" class="form-control input-sm" id="exampleTime-a">
+                                </div>
+                                <div class="form-group" style="margin-left: 10px">
+                                    <label for="exampleTime-b">结束时间：</label>
+                                    <input type="datetime" class="form-control input-sm" id="exampleTime-b">
+                                </div>
+                                <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 20px 0 0 0">
+                        <div class="col-sm-6 col-xs-12"  style="height: 300px">
+                            <div id="container-b" style="height: 300px"></div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12"  style="height: 300px">
+                            <div id="container-c" style="height: 300px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        // Radialize the colors
+        Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+            return {
+                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        });
+        // 构建图表
+        $('#container-b').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '误判占比统计表'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        },
+                        connectorColor: 'silver'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '中标记录占比',
+                data: [
+                    ['正常',   45.0],
+                    {
+                        name: '违规',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    }
+                ]
+            }]
+        });
+    });
+</script>
+<script>
+    var chart = Highcharts.chart('container-c', {
+        title: {
+            text: '误判时长统计表'
+        },
+        subtitle: {
+            text: ''
+        },
+        yAxis: {
+            title: {
+                text: ''
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+        series: [{
+            name: '正常',
+            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+        }, {
+            name: '违规',
+            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+        }],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+
+</script>
